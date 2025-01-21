@@ -1,0 +1,22 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.33318.109
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbilitySystem", "AbilitySystem\AbilitySystem.csproj", "{D2FDA127-F4DF-4F66-B0AC-4ADF69048F77}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbilitySystemTests", "AbilitySystemTests\AbilitySystemTests.csproj", "{87453710-0599-454C-9D96-1E6940BE45F4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D2FDA127-F4DF-4F66-B0AC-4ADF69048F77} = {D2FDA127-F4DF-4F66-B0AC-4ADF69048F77}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D2FDA127-F4DF-4F66-B0AC-4ADF69048F77}.Test|Any CPU.ActiveCfg = Test|Any CPU
+		{D2FDA127-F4DF-4F66-B0AC-4ADF69048F77}.Test|Any CPU.Build.0 = Test|Any CPU
+		{87453710-0599-454C-9D96-1E6940BE45F4}.Test|Any CPU.ActiveCfg = Test|Any CPU
+		{87453710-0599-454C-9D96-1E6940BE45F4}.Test|Any CPU.Build.0 = Test|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Test|Any CPU = Test|Any CPU
+	EndGlobalSection
+EndGlobal
