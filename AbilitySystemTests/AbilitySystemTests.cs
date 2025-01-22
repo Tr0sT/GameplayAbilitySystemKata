@@ -9,16 +9,16 @@ namespace AbilitySystemTests
         public void DoubleStrikeWithOneBully_Full()
         {
             var commandQueue = new CommandQueue();
-
-            var attackerA = new Unit("A", 5, 1);
-            var targetB = new Unit("B", 5, 0);
-            var bullyC = new Unit("C", 5, 1);
+            var combatEventsContext = new CombatEventsContext();
             
-            bullyC.ReactOnDamageToAnotherUnit_AddDamage();
+            var attackerA = new Unit("A", 5, 1, commandQueue, combatEventsContext);
+            var targetB = new Unit("B", 5, 0, commandQueue, combatEventsContext);
+            var bullyC = new Unit("C", 5, 1, commandQueue, combatEventsContext);
             
-            commandQueue.Add(new AttackCommand(attackerA, targetB, attackerA.Damage));
-            commandQueue.Add(new AttackCommand(attackerA, targetB, attackerA.Damage));
+            bullyC.AddBullyStatusEffect();
 
+            attackerA.DealDamage(targetB);
+            attackerA.DealDamage(targetB);
             
             // Anything above can be changed, but the result must be correct:
             var result = commandQueue.GetResult();
@@ -33,14 +33,15 @@ namespace AbilitySystemTests
         public void DoubleStrikeWithOneBully_OneShot()
         {
             var commandQueue = new CommandQueue();
+            var combatEventsContext = new CombatEventsContext();
             
-            var attackerA = new Unit("A", 5, 10);
-            var targetB = new Unit("B", 5, 0);
-            var bullyC = new Unit("C", 5, 1);
-            bullyC.ReactOnDamageToAnotherUnit_AddDamage();
+            var attackerA = new Unit("A", 5, 10, commandQueue, combatEventsContext);
+            var targetB = new Unit("B", 5, 0, commandQueue, combatEventsContext);
+            var bullyC = new Unit("C", 5, 1, commandQueue, combatEventsContext);
+            bullyC.AddBullyStatusEffect();
             
-            commandQueue.Add(new AttackCommand(attackerA, targetB, attackerA.Damage));
-            commandQueue.Add(new AttackCommand(attackerA, targetB, attackerA.Damage));
+            attackerA.DealDamage(targetB);
+            attackerA.DealDamage(targetB);
             
             // Anything above can be changed, but the result must be correct:
             var result = commandQueue.GetResult();
@@ -53,17 +54,18 @@ namespace AbilitySystemTests
         public void DoubleStrikeWithTwoBully_Full()
         {
             var commandQueue = new CommandQueue();
+            var combatEventsContext = new CombatEventsContext();
             
-            var attackerA = new Unit("A", 5, 1);
-            var targetB = new Unit("B", 5, 0);
-            var bullyC = new Unit("C", 5, 1);
-            bullyC.ReactOnDamageToAnotherUnit_AddDamage();
+            var attackerA = new Unit("A", 5, 1, commandQueue, combatEventsContext);
+            var targetB = new Unit("B", 5, 0, commandQueue, combatEventsContext);
+            var bullyC = new Unit("C", 5, 1, commandQueue, combatEventsContext);
             
-            var bullyD = new Unit("D", 5, 1);
-            bullyD.ReactOnDamageToAnotherUnit_AddDamage();
+            var bullyD = new Unit("D", 5, 1, commandQueue, combatEventsContext);
+            bullyC.AddBullyStatusEffect();
+            bullyD.AddBullyStatusEffect();
             
-            commandQueue.Add(new AttackCommand(attackerA, targetB, attackerA.Damage));
-            commandQueue.Add(new AttackCommand(attackerA, targetB, attackerA.Damage));
+            attackerA.DealDamage(targetB);
+            attackerA.DealDamage(targetB);
 
             // Anything above can be changed, but the result must be correct:
             var result = commandQueue.GetResult();
@@ -80,13 +82,15 @@ namespace AbilitySystemTests
         public void SingleStrikeWithOneDefender_Full()
         {
             var commandQueue = new CommandQueue();
+            var combatEventsContext = new CombatEventsContext();
             
-            var attackerA = new Unit("A", 5, 1);
-            var targetB = new Unit("B", 5, 0);
-            var defenderE = new Unit("E", 5, 1);
-            defenderE.ReactOnDamageToAnotherUnit_Defend();
+            var attackerA = new Unit("A", 5, 1, commandQueue, combatEventsContext);
+            var targetB = new Unit("B", 5, 0, commandQueue, combatEventsContext);
+            var defenderE = new Unit("E", 5, 1, commandQueue, combatEventsContext);
+            defenderE.AddDefenderStatusEffect();
             
-            commandQueue.Add(new AttackCommand(attackerA, targetB, attackerA.Damage));
+            attackerA.DealDamage(targetB);
+            
             
             // Anything above can be changed, but the result must be correct:
             var result = commandQueue.GetResult();

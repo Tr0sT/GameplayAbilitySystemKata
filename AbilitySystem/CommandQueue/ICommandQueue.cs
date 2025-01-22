@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 
 namespace AbilitySystem
 {
@@ -6,5 +7,7 @@ namespace AbilitySystem
     {
         ReadOnlyCollection<ICommand> GetResult();
         void Add(ICommand command);
+        
+        
     }
 }
