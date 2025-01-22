@@ -9,12 +9,11 @@ namespace AbilitySystem
 
         public void Add(ICommand command)
         {
-            // TODO?
+            _commands.Add(command);
         }
         
         public ReadOnlyCollection<ICommand> GetResult()
         {
-            // TODO?
             return _commands.AsReadOnly();
         }
     }

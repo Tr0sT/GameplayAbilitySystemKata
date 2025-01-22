@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using NUnit.Framework;
 using AbilitySystem;
 
@@ -10,15 +11,14 @@ namespace AbilitySystemTests
         {
             var commandQueue = new CommandQueue();
 
-            var attackerA = new Unit("A", 5, 1);
-            var targetB = new Unit("B", 5, 0);
-            var bullyC = new Unit("C", 5, 1);
+            var attackerA = new Unit("A", 5, 1, commandQueue);
+            var targetB = new Unit("B", 5, 0, commandQueue);
+            var bullyC = new Unit("C", 5, 1, commandQueue);
             
-            bullyC.ReactOnDamageToAnotherUnit_AddDamage();
-            
-            commandQueue.Add(new AttackCommand(attackerA, targetB, attackerA.Damage));
-            commandQueue.Add(new AttackCommand(attackerA, targetB, attackerA.Damage));
+            bullyC.AddBullyStatusEffect(new List<IUnit> {attackerA, targetB, bullyC});
 
+            attackerA.DealDamage(targetB);
+            attackerA.DealDamage(targetB);
             
             // Anything above can be changed, but the result must be correct:
             var result = commandQueue.GetResult();
@@ -34,13 +34,13 @@ namespace AbilitySystemTests
         {
             var commandQueue = new CommandQueue();
             
-            var attackerA = new Unit("A", 5, 10);
-            var targetB = new Unit("B", 5, 0);
-            var bullyC = new Unit("C", 5, 1);
-            bullyC.ReactOnDamageToAnotherUnit_AddDamage();
+            var attackerA = new Unit("A", 5, 10, commandQueue);
+            var targetB = new Unit("B", 5, 0, commandQueue);
+            var bullyC = new Unit("C", 5, 1, commandQueue);
+            bullyC.AddBullyStatusEffect(new List<IUnit>{attackerA, targetB, bullyC});
             
-            commandQueue.Add(new AttackCommand(attackerA, targetB, attackerA.Damage));
-            commandQueue.Add(new AttackCommand(attackerA, targetB, attackerA.Damage));
+            attackerA.DealDamage(targetB);
+            attackerA.DealDamage(targetB);
             
             // Anything above can be changed, but the result must be correct:
             var result = commandQueue.GetResult();
@@ -54,16 +54,16 @@ namespace AbilitySystemTests
         {
             var commandQueue = new CommandQueue();
             
-            var attackerA = new Unit("A", 5, 1);
-            var targetB = new Unit("B", 5, 0);
-            var bullyC = new Unit("C", 5, 1);
-            bullyC.ReactOnDamageToAnotherUnit_AddDamage();
+            var attackerA = new Unit("A", 5, 1, commandQueue);
+            var targetB = new Unit("B", 5, 0, commandQueue);
+            var bullyC = new Unit("C", 5, 1, commandQueue);
             
-            var bullyD = new Unit("D", 5, 1);
-            bullyD.ReactOnDamageToAnotherUnit_AddDamage();
+            var bullyD = new Unit("D", 5, 1, commandQueue);
+            bullyC.AddBullyStatusEffect(new List<IUnit>{attackerA, targetB, bullyC, bullyD});
+            bullyD.AddBullyStatusEffect(new List<IUnit>{attackerA, targetB, bullyC, bullyD});
             
-            commandQueue.Add(new AttackCommand(attackerA, targetB, attackerA.Damage));
-            commandQueue.Add(new AttackCommand(attackerA, targetB, attackerA.Damage));
+            attackerA.DealDamage(targetB);
+            attackerA.DealDamage(targetB);
 
             // Anything above can be changed, but the result must be correct:
             var result = commandQueue.GetResult();
@@ -81,12 +81,13 @@ namespace AbilitySystemTests
         {
             var commandQueue = new CommandQueue();
             
-            var attackerA = new Unit("A", 5, 1);
-            var targetB = new Unit("B", 5, 0);
-            var defenderE = new Unit("E", 5, 1);
-            defenderE.ReactOnDamageToAnotherUnit_Defend();
+            var attackerA = new Unit("A", 5, 1, commandQueue);
+            var targetB = new Unit("B", 5, 0, commandQueue);
+            var defenderE = new Unit("E", 5, 1, commandQueue);
+            defenderE.AddDefenderStatusEffect(commandQueue, new List<IUnit>{attackerA, targetB, defenderE});
             
-            commandQueue.Add(new AttackCommand(attackerA, targetB, attackerA.Damage));
+            attackerA.DealDamage(targetB);
+            
             
             // Anything above can be changed, but the result must be correct:
             var result = commandQueue.GetResult();
