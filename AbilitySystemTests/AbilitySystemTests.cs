@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using AbilitySystem;
+using AbilitySystem.ECS;
 
 namespace AbilitySystemTests
 {
@@ -14,11 +15,13 @@ namespace AbilitySystemTests
             var targetB = new Unit("B", 5, 0);
             var bullyC = new Unit("C", 5, 1);
             
-            bullyC.ReactOnDamageToAnotherUnit_AddDamage();
+            bullyC.AddBullyStatusEffect();
             
             commandQueue.Add(new AttackCommand(attackerA, targetB, attackerA.Damage));
             commandQueue.Add(new AttackCommand(attackerA, targetB, attackerA.Damage));
 
+            var world = new Calculator(new() {attackerA, targetB, bullyC}, commandQueue);
+            world.Calculate();
             
             // Anything above can be changed, but the result must be correct:
             var result = commandQueue.GetResult();
@@ -37,10 +40,13 @@ namespace AbilitySystemTests
             var attackerA = new Unit("A", 5, 10);
             var targetB = new Unit("B", 5, 0);
             var bullyC = new Unit("C", 5, 1);
-            bullyC.ReactOnDamageToAnotherUnit_AddDamage();
+            bullyC.AddBullyStatusEffect();
             
             commandQueue.Add(new AttackCommand(attackerA, targetB, attackerA.Damage));
             commandQueue.Add(new AttackCommand(attackerA, targetB, attackerA.Damage));
+            
+            var world = new Calculator(new() {attackerA, targetB, bullyC}, commandQueue);
+            world.Calculate();
             
             // Anything above can be changed, but the result must be correct:
             var result = commandQueue.GetResult();
@@ -57,13 +63,16 @@ namespace AbilitySystemTests
             var attackerA = new Unit("A", 5, 1);
             var targetB = new Unit("B", 5, 0);
             var bullyC = new Unit("C", 5, 1);
-            bullyC.ReactOnDamageToAnotherUnit_AddDamage();
+            bullyC.AddBullyStatusEffect();
             
             var bullyD = new Unit("D", 5, 1);
-            bullyD.ReactOnDamageToAnotherUnit_AddDamage();
+            bullyD.AddBullyStatusEffect();
             
             commandQueue.Add(new AttackCommand(attackerA, targetB, attackerA.Damage));
             commandQueue.Add(new AttackCommand(attackerA, targetB, attackerA.Damage));
+            
+            var world = new Calculator(new() {attackerA, targetB, bullyC, bullyD}, commandQueue);
+            world.Calculate();
 
             // Anything above can be changed, but the result must be correct:
             var result = commandQueue.GetResult();
@@ -84,9 +93,12 @@ namespace AbilitySystemTests
             var attackerA = new Unit("A", 5, 1);
             var targetB = new Unit("B", 5, 0);
             var defenderE = new Unit("E", 5, 1);
-            defenderE.ReactOnDamageToAnotherUnit_Defend();
+            defenderE.AddDefenderStatusEffect();
             
             commandQueue.Add(new AttackCommand(attackerA, targetB, attackerA.Damage));
+            
+            var world = new Calculator(new() {attackerA, targetB, defenderE}, commandQueue);
+            world.Calculate();
             
             // Anything above can be changed, but the result must be correct:
             var result = commandQueue.GetResult();

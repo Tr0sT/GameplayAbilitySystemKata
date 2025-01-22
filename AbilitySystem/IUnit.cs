@@ -1,4 +1,6 @@
-﻿namespace AbilitySystem
+﻿using System.Collections.ObjectModel;
+
+namespace AbilitySystem
 {
     public interface IUnit
     {
@@ -6,8 +8,11 @@
         int Health { get; }
         bool IsDead { get; }
         int Damage { get; }
-        void TakeDamage(int damage);
-        void DealDamage(IUnit target);
+        int TakeDamage(int damage);
+        int DealDamage(IUnit target);
+        
+        ReadOnlyCollection<IStatusEffect> StatusEffects { get; }
 
+        void AddStatusEffect(IStatusEffect statusEffect);
     }
 }

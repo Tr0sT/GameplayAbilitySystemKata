@@ -1,7 +1,12 @@
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+
 namespace AbilitySystem
 {
     public sealed class Unit : IUnit
     {
+        private readonly List<IStatusEffect> _statusEffects = new();
         public string Name { get; }
         public int Health { get; private set; }
         public int Damage { get; private set; }
@@ -14,25 +19,27 @@ namespace AbilitySystem
             Damage = damage;
         }
 
-        public void TakeDamage(int damage)
+        public int TakeDamage(int damage)
         {
-            if (IsDead) return;
-            Health -= damage;
+            if (IsDead)
+            {
+                throw new System.Exception("Unit is already dead");
+            }
+
+            var realDamage = Math.Min(Health, damage);
+            Health -= realDamage;
+            return realDamage;
         }
 
-        public void DealDamage(IUnit target)
+        public int DealDamage(IUnit target)
         {
-            target.TakeDamage(Damage);
+            return target.TakeDamage(Damage);
         }
 
-        public void ReactOnDamageToAnotherUnit_AddDamage()
+        public ReadOnlyCollection<IStatusEffect> StatusEffects => _statusEffects.AsReadOnly();
+        public void AddStatusEffect(IStatusEffect statusEffect)
         {
-            // TODO
-        }
-        
-        public void ReactOnDamageToAnotherUnit_Defend()
-        {
-            // TODO
+            _statusEffects.Add(statusEffect);
         }
     }
 }
