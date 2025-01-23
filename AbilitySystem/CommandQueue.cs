@@ -7,7 +7,7 @@ namespace AbilitySystem
     {
         private readonly List<ICommand> _commands = new();
 
-        public void AddCommand(ICommand command)
+        public void Add(ICommand command)
         {
             // TODO?
         }

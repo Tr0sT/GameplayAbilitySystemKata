@@ -5,6 +5,6 @@ namespace AbilitySystem
     public interface ICommandQueue
     {
         ReadOnlyCollection<ICommand> GetResult();
-        void AddCommand(ICommand command);
+        void Add(ICommand command);
     }
 }

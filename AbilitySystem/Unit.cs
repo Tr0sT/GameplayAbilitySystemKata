@@ -25,12 +25,12 @@ namespace AbilitySystem
             target.TakeDamage(Damage);
         }
 
-        public void ReactOnDamageToAnotherUnit_AddDamage(CommandQueue commandQueue)
+        public void ReactOnDamageToAnotherUnit_AddDamage()
         {
             // TODO
         }
         
-        public void ReactOnDamageToAnotherUnit_Defend(CommandQueue commandQueue)
+        public void ReactOnDamageToAnotherUnit_Defend()
         {
             // TODO
         }
