@@ -20,8 +20,8 @@ namespace AbilitySystem
                 return false;
             }
 
-            _commandQueue.Add(new TryAttackCommand(source, target));
-            _commandQueue.Add(new DefendCommand(_unit, target));
+            _commandQueue.Add(new TryAttackCommand(source, target, _commandQueue.Time));
+            _commandQueue.Add(new DefendCommand(_unit, target, _commandQueue.Time));
             source.DealDamage(_unit);
             return true;
         }

@@ -7,6 +7,7 @@ namespace AbilitySystem
     {
         private readonly List<Func<IUnit, IUnit, int, bool>> _preDamageSubscribers = new();
         private readonly List<Func<IUnit, IUnit, int, bool>> _afterDamageSubscribers = new();
+        private readonly List<Action<int>> _onTimeChangedSubscribers = new();
         
         public void SubscribeToPreDamage(Func<IUnit, IUnit, int, bool> func)
         {
@@ -44,6 +45,16 @@ namespace AbilitySystem
             }
 
             return false;
+        }
+
+        public void SubscribeToTimeChange(Action<int> onTimeChanged)
+        {
+            _onTimeChangedSubscribers.Add(onTimeChanged);
+        }
+
+        public void RaiseTimeChange(int time)
+        {
+            _onTimeChangedSubscribers.ForEach(s => s.Invoke(time));
         }
     }
 }

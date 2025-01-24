@@ -50,10 +50,10 @@ namespace AbilitySystem
             }
             
             var result = target.TakeDamage(Damage);
-            _commandQueue.Add(new AttackCommand(this, target, result)); // по-хорошему перенести выше и ввести CalcTakeDamage damage?
+            _commandQueue.Add(new AttackCommand(this, target, result, _commandQueue.Time)); // по-хорошему перенести выше и ввести CalcTakeDamage damage?
             if (target.IsDead) // а это убрать внутрь TakeDamage
             {
-                _commandQueue.Add(new DeathCommand(target));
+                _commandQueue.Add(new DeathCommand(target, _commandQueue.Time));
             }
             
             if (_combatEventsContext.RaiseAfterDamage(this, target, result))
