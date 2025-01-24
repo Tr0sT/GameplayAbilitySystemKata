@@ -20,7 +20,7 @@ namespace AbilitySystemTests
             commandQueue.Add(new AttackCommand(attackerA, targetB, attackerA.Damage));
 
             
-            // Всё что выше можно менять, но результат должен быть правильным:
+            // Anything above can be changed, but the result must be correct:
             var result = commandQueue.GetResult();
             Assert.AreEqual(4, result.Count); 
             Assert.AreEqual(new AttackCommand(attackerA, targetB, attackerA.Damage), result[0]);
@@ -42,7 +42,7 @@ namespace AbilitySystemTests
             commandQueue.Add(new AttackCommand(attackerA, targetB, attackerA.Damage));
             commandQueue.Add(new AttackCommand(attackerA, targetB, attackerA.Damage));
             
-            // Всё что выше можно менять, но результат должен быть правильным:
+            // Anything above can be changed, but the result must be correct:
             var result = commandQueue.GetResult();
             Assert.AreEqual(2, result.Count); 
             Assert.AreEqual(new AttackCommand(attackerA, targetB, 5), result[0]);
@@ -65,7 +65,7 @@ namespace AbilitySystemTests
             commandQueue.Add(new AttackCommand(attackerA, targetB, attackerA.Damage));
             commandQueue.Add(new AttackCommand(attackerA, targetB, attackerA.Damage));
 
-            // Всё что выше можно менять, но результат должен быть правильным:
+            // Anything above can be changed, but the result must be correct:
             var result = commandQueue.GetResult();
             Assert.AreEqual(6, result.Count);
             Assert.AreEqual(new AttackCommand(attackerA, targetB, attackerA.Damage), result[0]); // 4 хп
@@ -88,7 +88,7 @@ namespace AbilitySystemTests
             
             commandQueue.Add(new AttackCommand(attackerA, targetB, attackerA.Damage));
             
-            // Всё что выше можно менять, но результат должен быть правильным:
+            // Anything above can be changed, but the result must be correct:
             var result = commandQueue.GetResult();
             Assert.AreEqual(3, result.Count); 
             Assert.AreEqual(new TryAttackCommand(attackerA, targetB), result[0]);
