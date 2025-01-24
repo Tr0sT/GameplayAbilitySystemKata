@@ -6,7 +6,7 @@ namespace AbilitySystemTests
     public sealed class AbilitySystemTests
     {
         [Test]
-        public void DoubleStrikeWitOneBully_Full()
+        public void DoubleStrikeWithOneBully_Full()
         {
             var commandQueue = new CommandQueue();
 
@@ -30,7 +30,7 @@ namespace AbilitySystemTests
         }
         
         [Test]
-        public void DoubleStrikeWitOneBully_OneShot()
+        public void DoubleStrikeWithOneBully_OneShot()
         {
             var commandQueue = new CommandQueue();
             
@@ -50,7 +50,7 @@ namespace AbilitySystemTests
         }
         
         [Test]
-        public void DoubleStrikeWitTwoBully_Full()
+        public void DoubleStrikeWithTwoBully_Full()
         {
             var commandQueue = new CommandQueue();
             
@@ -77,7 +77,7 @@ namespace AbilitySystemTests
         }
         
         [Test]
-        public void SingleStrikeWitOneDefender_Full()
+        public void SingleStrikeWithOneDefender_Full()
         {
             var commandQueue = new CommandQueue();
             
