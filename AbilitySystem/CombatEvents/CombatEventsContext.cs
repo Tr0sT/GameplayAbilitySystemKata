@@ -5,56 +5,35 @@ namespace AbilitySystem
 {
     public sealed class CombatEventsContext : ICombatEventsContext
     {
-        private readonly List<Func<IUnit, IUnit, int, bool>> _preDamageSubscribers = new();
-        private readonly List<Func<IUnit, IUnit, int, bool>> _afterDamageSubscribers = new();
-        private readonly List<Action<int>> _onTimeChangedSubscribers = new();
-        
-        public void SubscribeToPreDamage(Func<IUnit, IUnit, int, bool> func)
-        {
-            _preDamageSubscribers.Add(func);
-        }
+        private readonly Dictionary<Type, List<Func<ICombatEvent, bool>>> _combatEvents = new();
 
-        public void SubscribeToAfterDamage(Func<IUnit, IUnit, int, bool> func)
+        public void SubscribeToCombatEvent<T>(Func<T, bool> func) where T : ICombatEvent
         {
-            _afterDamageSubscribers.Add(func);
-        }
-
-        public bool RaisePreDamage(IUnit source, IUnit target, int damage)
-        {
-            foreach (var preDamageSubscriber in _preDamageSubscribers)
+            if (_combatEvents.TryGetValue(typeof(T), out var list))
             {
-                var cancel = preDamageSubscriber.Invoke(source, target, damage);
-                if (cancel)
+                list.Add(e => func((T)e));
+            }
+            else
+            {
+                _combatEvents.Add(typeof(T), new List<Func<ICombatEvent, bool>>(){e => func((T)e)});
+            }
+        }
+
+        public bool RaiseCombatEvent<T>(T @event) where T : ICombatEvent
+        {
+            if (_combatEvents.TryGetValue(typeof(T), out var list))
+            {
+                foreach (var subscriber in list)
                 {
-                    return true;
+                    var interrupt = subscriber.Invoke(@event);
+                    if (interrupt)
+                    {
+                        return true;
+                    }
                 }
             }
 
             return false;
-        }
-
-        public bool RaiseAfterDamage(IUnit source, IUnit target, int damage)
-        {
-            foreach (var afterDamageSubscriber in _afterDamageSubscribers)
-            {
-                var interrupt = afterDamageSubscriber.Invoke(source, target, damage);
-                if (interrupt)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        public void SubscribeToTimeChange(Action<int> onTimeChanged)
-        {
-            _onTimeChangedSubscribers.Add(onTimeChanged);
-        }
-
-        public void RaiseTimeChange(int time)
-        {
-            _onTimeChangedSubscribers.ForEach(s => s.Invoke(time));
         }
     }
 }

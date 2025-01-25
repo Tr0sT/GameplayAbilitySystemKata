@@ -44,7 +44,7 @@ namespace AbilitySystem
                 return 0;
             }
 
-            if (_combatEventsContext.RaisePreDamage(this, target, Damage))
+            if (_combatEventsContext.RaiseCombatEvent(new PreDamageEvent(this, target, Damage)))
             {
                 return 0;
             }
@@ -56,7 +56,7 @@ namespace AbilitySystem
                 _commandQueue.Add(new DeathCommand(target, _commandQueue.Time));
             }
             
-            if (_combatEventsContext.RaiseAfterDamage(this, target, result))
+            if (_combatEventsContext.RaiseCombatEvent(new AfterDamageEvent(this, target, result)))
             {
                 return result;
             }

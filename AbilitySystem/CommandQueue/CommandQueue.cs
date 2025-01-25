@@ -30,7 +30,7 @@ namespace AbilitySystem
         public void UpdateTime()
         {
             Time += 1;
-            _combatEventsContext.RaiseTimeChange(Time);
+            _combatEventsContext.RaiseCombatEvent(new TimeChangeEvent(Time));
         }
 
         public void AddMaxTime(float maxTime)

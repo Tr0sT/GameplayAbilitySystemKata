@@ -10,19 +10,19 @@ namespace AbilitySystem
         {
             _unit = unit;
             _commandQueue = commandQueue;
-            combatEventsContext.SubscribeToPreDamage(OnPreDamage);
+            combatEventsContext.SubscribeToCombatEvent<PreDamageEvent>(OnPreDamage);
         }
 
-        private bool OnPreDamage(IUnit source, IUnit target, int damage)
+        private bool OnPreDamage(PreDamageEvent @event)
         {
-            if (_unit == source || _unit == target)
+            if (_unit == @event.Source || _unit == @event.Target)
             {
                 return false;
             }
 
-            _commandQueue.Add(new TryAttackCommand(source, target, _commandQueue.Time));
-            _commandQueue.Add(new DefendCommand(_unit, target, _commandQueue.Time));
-            source.DealDamage(_unit);
+            _commandQueue.Add(new TryAttackCommand(@event.Source, @event.Target, _commandQueue.Time));
+            _commandQueue.Add(new DefendCommand(_unit, @event.Target, _commandQueue.Time));
+            @event.Source.DealDamage(_unit);
             return true;
         }
     }

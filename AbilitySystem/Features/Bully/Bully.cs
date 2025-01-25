@@ -8,17 +8,17 @@ namespace AbilitySystem
         {
             _unit = unit;
             
-            combatEventsContext.SubscribeToAfterDamage(OnAfterDamage);
+            combatEventsContext.SubscribeToCombatEvent<AfterDamageEvent>(OnAfterDamage);
         }
 
-        private bool OnAfterDamage(IUnit source, IUnit target, int damage)
+        private bool OnAfterDamage(AfterDamageEvent @event)
         {
-            if (_unit == source || _unit == target)
+            if (_unit == @event.Source || _unit == @event.Target)
             {
                 return false;
             }
 
-            _unit.DealDamage(target);
+            _unit.DealDamage(@event.Target);
             return true;
         }
     }

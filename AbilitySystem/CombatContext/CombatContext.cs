@@ -14,18 +14,20 @@ namespace AbilitySystem
         {
             _commandQueue = commandQueue;
             _combatEventsContext = combatEventsContext;
-            _combatEventsContext.SubscribeToTimeChange(OnTimeChange);
+            _combatEventsContext.SubscribeToCombatEvent<TimeChangeEvent>(OnTimeChange);
         }
 
-        private void OnTimeChange(int time)
+        private bool OnTimeChange(TimeChangeEvent @event)
         {
-            if (_onTimeEvents.TryGetValue(time, out var events))
+            if (_onTimeEvents.TryGetValue(@event.Time, out var events))
             {
                 foreach (var action in events)
                 {
                     action();
                 }
             }
+
+            return false;
         }
 
         public void CreateProjectile(IUnit source, IUnit target, int flyingTime, Action onEnd)
