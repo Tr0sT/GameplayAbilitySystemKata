@@ -22,7 +22,7 @@ namespace AbilitySystem
 
             _commandQueue.Add(new TryAttackCommand(@event.Source, @event.Target, _commandQueue.Time));
             _commandQueue.Add(new DefendCommand(_unit, @event.Target, _commandQueue.Time));
-            @event.Source.DealDamage(_unit);
+            @event.Source.GetCombatFeature<IDamageable>().DealDamage(_unit);
             return true;
         }
     }

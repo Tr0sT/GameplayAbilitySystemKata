@@ -6,14 +6,14 @@ namespace AbilitySystem
     {
         public static bool IsBully(this IUnit unit)
         {
-            return unit.StatusEffects.Any(s => s is Bully);
+            return unit.GetCombatFeature<IStatusEffectsHolder>().StatusEffects.Any(s => s is Bully);
         }
         
         public static void AddBullyStatusEffect(this IUnit unit)
         {
             if (!unit.IsBully())
             {
-                unit.AddStatusEffect(new Bully());
+                unit.GetCombatFeature<IStatusEffectsHolder>().AddStatusEffect(new Bully());
             }
         }
     }

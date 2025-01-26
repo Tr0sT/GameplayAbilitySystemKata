@@ -40,13 +40,13 @@ namespace AbilitySystemTests
         {
             combatContext.CreateProjectile(source, target, 10, () =>
             {
-                source.DealDamage(target);
+                source.GetCombatFeature<IDamageable>().DealDamage(target);
             });
             combatContext.Delay(5, () =>
             {
                 combatContext.CreateProjectile(source, target, 20, () =>
                 {
-                    source.DealDamage(target);
+                    source.GetCombatFeature<IDamageable>().DealDamage(target);
                 });
             });
         }
@@ -62,8 +62,8 @@ namespace AbilitySystemTests
             var bullyC = new Unit("C", 5, 1, commandQueue, combatEventsContext);
             bullyC.AddBullyStatusEffect();
             
-            attackerA.DealDamage(targetB);
-            attackerA.DealDamage(targetB);
+            attackerA.GetCombatFeature<IDamageable>().DealDamage(targetB);
+            attackerA.GetCombatFeature<IDamageable>().DealDamage(targetB);
             
             // Anything above can be changed, but the result must be correct:
             var result = commandQueue.GetResult();
@@ -86,8 +86,8 @@ namespace AbilitySystemTests
             bullyC.AddBullyStatusEffect();
             bullyD.AddBullyStatusEffect();
             
-            attackerA.DealDamage(targetB);
-            attackerA.DealDamage(targetB);
+            attackerA.GetCombatFeature<IDamageable>().DealDamage(targetB);
+            attackerA.GetCombatFeature<IDamageable>().DealDamage(targetB);
 
             // Anything above can be changed, but the result must be correct:
             var result = commandQueue.GetResult();
@@ -111,7 +111,7 @@ namespace AbilitySystemTests
             var defenderE = new Unit("E", 5, 1, commandQueue, combatEventsContext);
             defenderE.AddDefenderStatusEffect();
             
-            attackerA.DealDamage(targetB);
+            attackerA.GetCombatFeature<IDamageable>().DealDamage(targetB);
             
             
             // Anything above can be changed, but the result must be correct:

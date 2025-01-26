@@ -18,7 +18,7 @@ namespace AbilitySystem
                 return false;
             }
 
-            _unit.DealDamage(@event.Target);
+            _unit.GetCombatFeature<IDamageable>().DealDamage(@event.Target);
             return true;
         }
     }

@@ -6,14 +6,14 @@ namespace AbilitySystem
     {
         public static bool IsDefender(this IUnit unit)
         {
-            return unit.StatusEffects.Any(s => s is Defender);
+            return unit.GetCombatFeature<IStatusEffectsHolder>().StatusEffects.Any(s => s is Defender);
         }
         
         public static void AddDefenderStatusEffect(this IUnit unit)
         {
             if (!unit.IsBully())
             {
-                unit.AddStatusEffect(new Defender());
+                unit.GetCombatFeature<IStatusEffectsHolder>().AddStatusEffect(new Defender());
             }
         }
     }
