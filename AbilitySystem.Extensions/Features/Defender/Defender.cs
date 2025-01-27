@@ -2,15 +2,22 @@ namespace AbilitySystem
 {
     public sealed class Defender : IStatusEffect
     {
-        private IUnit _unit = null!;
-        private ICommandQueue _commandQueue = null!;
+        private readonly IUnit _unit;
+        private readonly ICommandQueue _commandQueue;
+        private readonly ICombatEventsContext _combatEventsContext;
 
 
-        public void Init(IUnit unit, ICommandQueue commandQueue, ICombatEventsContext combatEventsContext)
+        public Defender(IUnit unit, ICommandQueue commandQueue, ICombatEventsContext combatEventsContext)
         {
             _unit = unit;
             _commandQueue = commandQueue;
-            combatEventsContext.SubscribeToCombatEvent<PreDamageEvent>(OnPreDamage);
+            _combatEventsContext = combatEventsContext;
+            _combatEventsContext.SubscribeToCombatEvent<PreDamageEvent>(OnPreDamage);
+        }
+
+        public void Dispose()
+        {
+            _combatEventsContext.UnsubscribeFromCombatEvent<PreDamageEvent>(OnPreDamage);
         }
 
         private bool OnPreDamage(PreDamageEvent @event)

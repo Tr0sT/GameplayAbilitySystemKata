@@ -1,7 +1,8 @@
+using System;
+
 namespace AbilitySystem
 {
-    public interface IStatusEffect
+    public interface IStatusEffect : IDisposable
     {
-        void Init(IUnit targetUnit, ICommandQueue commandQueue, ICombatEventsContext combatEventsContext);
     }
 }

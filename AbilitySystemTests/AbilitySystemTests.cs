@@ -16,7 +16,7 @@ namespace AbilitySystemTests
             var targetB = new Unit("B", 5, 0, commandQueue, combatEventsContext);
             var bullyC = new Unit("C", 5, 1, commandQueue, combatEventsContext);
             
-            bullyC.AddBullyStatusEffect();
+            bullyC.AddBullyStatusEffect(combatEventsContext);
 
             DoubleAttackUsingProjectiles(combatContext, attackerA, targetB);
             
@@ -56,7 +56,7 @@ namespace AbilitySystemTests
             var attackerA = new Unit("A", 5, 10, commandQueue, combatEventsContext);
             var targetB = new Unit("B", 5, 0, commandQueue, combatEventsContext);
             var bullyC = new Unit("C", 5, 1, commandQueue, combatEventsContext);
-            bullyC.AddBullyStatusEffect();
+            bullyC.AddBullyStatusEffect(combatEventsContext);
             
             attackerA.GetCombatFeature<IDamageable>().DealDamage(targetB);
             attackerA.GetCombatFeature<IDamageable>().DealDamage(targetB);
@@ -79,8 +79,8 @@ namespace AbilitySystemTests
             var bullyC = new Unit("C", 5, 1, commandQueue, combatEventsContext);
             
             var bullyD = new Unit("D", 5, 1, commandQueue, combatEventsContext);
-            bullyC.AddBullyStatusEffect();
-            bullyD.AddBullyStatusEffect();
+            bullyC.AddBullyStatusEffect(combatEventsContext);
+            bullyD.AddBullyStatusEffect(combatEventsContext);
             
             attackerA.GetCombatFeature<IDamageable>().DealDamage(targetB);
             attackerA.GetCombatFeature<IDamageable>().DealDamage(targetB);
@@ -105,7 +105,7 @@ namespace AbilitySystemTests
             var attackerA = new Unit("A", 5, 1, commandQueue, combatEventsContext);
             var targetB = new Unit("B", 5, 0, commandQueue, combatEventsContext);
             var defenderE = new Unit("E", 5, 1, commandQueue, combatEventsContext);
-            defenderE.AddDefenderStatusEffect();
+            defenderE.AddDefenderStatusEffect(commandQueue, combatEventsContext);
             
             attackerA.GetCombatFeature<IDamageable>().DealDamage(targetB);
             
