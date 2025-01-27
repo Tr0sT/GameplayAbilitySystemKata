@@ -8,7 +8,7 @@ namespace AbilitySystem
         private readonly Func<int, int> _doDamage;
         private readonly Func<int> _getDamage;
         private readonly ICombatEventsContext _combatEventsContext;
-        private readonly CommandQueue _commandQueue;
+        private readonly ICommandQueue _commandQueue;
         private readonly IUnit _unit;
 
         public IUnit Unit => _unit;
@@ -17,7 +17,7 @@ namespace AbilitySystem
             Func<int, int> doDamage,
             Func<int> getDamage,
             ICombatEventsContext combatEventsContext,
-            CommandQueue commandQueue,
+            ICommandQueue commandQueue,
             IUnit unit)
         {
             _canInteract = canInteract;

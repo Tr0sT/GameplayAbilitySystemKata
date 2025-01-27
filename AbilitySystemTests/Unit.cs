@@ -5,7 +5,7 @@ namespace AbilitySystem
 {
     public sealed class Unit : IUnit
     {
-        private readonly CommandQueue _commandQueue;
+        private readonly ICommandQueue _commandQueue;
         private readonly ICombatEventsContext _combatEventsContext;
 
         private readonly Dictionary<Type, ICombatFeature> _features = new();
@@ -15,7 +15,7 @@ namespace AbilitySystem
         public bool IsDead => Health <= 0;
         
         public Unit(string name, int health, int damage, 
-            CommandQueue commandQueue, ICombatEventsContext combatEventsContext)
+            ICommandQueue commandQueue, ICombatEventsContext combatEventsContext)
         {
             _commandQueue = commandQueue!;
             _combatEventsContext = combatEventsContext;

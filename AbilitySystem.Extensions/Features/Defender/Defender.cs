@@ -3,10 +3,10 @@ namespace AbilitySystem
     public sealed class Defender : IStatusEffect
     {
         private IUnit _unit = null!;
-        private CommandQueue _commandQueue = null!;
+        private ICommandQueue _commandQueue = null!;
 
 
-        public void Init(IUnit unit, CommandQueue commandQueue, ICombatEventsContext combatEventsContext)
+        public void Init(IUnit unit, ICommandQueue commandQueue, ICombatEventsContext combatEventsContext)
         {
             _unit = unit;
             _commandQueue = commandQueue;

@@ -14,12 +14,12 @@ namespace AbilitySystem
     public sealed class StatusEffectsHolder : IStatusEffectsHolder
     {
         private readonly IUnit _unit;
-        private readonly CommandQueue _commandQueue;
+        private readonly ICommandQueue _commandQueue;
         private readonly ICombatEventsContext _combatEventsContext;
         private readonly List<IStatusEffect> _statusEffects = new();
         public ReadOnlyCollection<IStatusEffect> StatusEffects => _statusEffects.AsReadOnly();
 
-        public StatusEffectsHolder(IUnit unit, CommandQueue commandQueue, ICombatEventsContext combatEventsContext)
+        public StatusEffectsHolder(IUnit unit, ICommandQueue commandQueue, ICombatEventsContext combatEventsContext)
         {
             _unit = unit;
             _commandQueue = commandQueue;

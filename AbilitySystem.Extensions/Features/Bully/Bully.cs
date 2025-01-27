@@ -4,7 +4,7 @@ namespace AbilitySystem
     {
         private IUnit _unit = null!;
 
-        public void Init(IUnit unit, CommandQueue commandQueue, ICombatEventsContext combatEventsContext)
+        public void Init(IUnit unit, ICommandQueue commandQueue, ICombatEventsContext combatEventsContext)
         {
             _unit = unit;
             
