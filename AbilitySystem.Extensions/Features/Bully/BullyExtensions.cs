@@ -9,12 +9,12 @@ namespace AbilitySystem
             return unit.GetCombatFeature<IStatusEffectsHolder>().StatusEffects.Any(s => s is Bully);
         }
         
-        public static void AddBullyStatusEffect(this IUnit unit, ICombatEventsContext combatEventsContext)
+        public static void AddBullyStatusEffect(this IUnit unit, ICombatEventBus combatEventBus)
         {
             if (!unit.IsBully())
             {
                 unit.GetCombatFeature<IStatusEffectsHolder>().AddStatusEffect(
-                    new Bully(unit, combatEventsContext));
+                    new Bully(unit, combatEventBus));
             }
         }
     }

@@ -7,7 +7,7 @@ namespace AbilitySystem
         private readonly Func<bool> _canInteract;
         private readonly Func<int, int> _doDamage;
         private readonly Func<int> _getDamage;
-        private readonly ICombatEventsContext _combatEventsContext;
+        private readonly ICombatEventBus _combatEventBus;
         private readonly ICommandQueue _commandQueue;
         private readonly IUnit _unit;
 
@@ -16,14 +16,14 @@ namespace AbilitySystem
         public Damageable(Func<bool> canInteract,
             Func<int, int> doDamage,
             Func<int> getDamage,
-            ICombatEventsContext combatEventsContext,
+            ICombatEventBus combatEventBus,
             ICommandQueue commandQueue,
             IUnit unit)
         {
             _canInteract = canInteract;
             _doDamage = doDamage;
             _getDamage = getDamage;
-            _combatEventsContext = combatEventsContext;
+            _combatEventBus = combatEventBus;
             _commandQueue = commandQueue;
             _unit = unit;
         }
@@ -50,7 +50,7 @@ namespace AbilitySystem
             }
 
             var damage = _getDamage.Invoke();
-            if (_combatEventsContext.RaiseCombatEvent(new PreDamageEvent(Unit, targetDamageable.Unit, damage)))
+            if (_combatEventBus.Raise(new PreDamageEvent(Unit, targetDamageable.Unit, damage)))
             {
                 return 0;
             }
@@ -63,7 +63,7 @@ namespace AbilitySystem
                 _commandQueue.Add(new DeathCommand(targetDamageable.Unit, _commandQueue.Time));
             }
             
-            if (_combatEventsContext.RaiseCombatEvent(new AfterDamageEvent(Unit, targetDamageable.Unit, result)))
+            if (_combatEventBus.Raise(new AfterDamageEvent(Unit, targetDamageable.Unit, result)))
             {
                 return result;
             }

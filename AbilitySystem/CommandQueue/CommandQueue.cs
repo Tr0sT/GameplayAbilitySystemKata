@@ -6,16 +6,16 @@ namespace AbilitySystem
 {
     public sealed class CommandQueue : ICommandQueue
     {
-        private readonly ICombatEventsContext _combatEventsContext;
+        private readonly ICombatEventBus _combatEventBus;
         private readonly List<ICommand> _commands = new();
         private readonly TimeEvents _timeEvents;
 
         public int Time { get; private set; }
         
 
-        public CommandQueue(ICombatEventsContext combatEventsContext)
+        public CommandQueue(ICombatEventBus combatEventBus)
         {
-            _combatEventsContext = combatEventsContext;
+            _combatEventBus = combatEventBus;
             _timeEvents = new TimeEvents();
         }
 

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace AbilitySystem
 {
-    public sealed class CombatEventsContext : ICombatEventsContext
+    public sealed class CombatEventBus : ICombatEventBus
     {
         private readonly Dictionary<Type, List<Delegate>> _combatEvents = new();
 
-        public void SubscribeToCombatEvent<T>(Func<T, bool> func) where T : ICombatEvent
+        public void Subscribe<T>(Func<T, bool> func) where T : ICombatEvent
         {
             if (_combatEvents.TryGetValue(typeof(T), out var list))
             {
@@ -19,7 +19,7 @@ namespace AbilitySystem
             }
         }
 
-        public bool RaiseCombatEvent<T>(T @event) where T : ICombatEvent
+        public bool Raise<T>(T @event) where T : ICombatEvent
         {
             if (_combatEvents.TryGetValue(typeof(T), out var list))
             {
@@ -36,7 +36,7 @@ namespace AbilitySystem
             return false;
         }
 
-        public void UnsubscribeFromCombatEvent<T>(Func<T, bool> func) where T : ICombatEvent
+        public void Unsubscribe<T>(Func<T, bool> func) where T : ICombatEvent
         {
             if (_combatEvents.TryGetValue(typeof(T), out var list))
             {

@@ -4,20 +4,20 @@ namespace AbilitySystem
     {
         private readonly IUnit _unit;
         private readonly ICommandQueue _commandQueue;
-        private readonly ICombatEventsContext _combatEventsContext;
+        private readonly ICombatEventBus _combatEventBus;
 
 
-        public Defender(IUnit unit, ICommandQueue commandQueue, ICombatEventsContext combatEventsContext)
+        public Defender(IUnit unit, ICommandQueue commandQueue, ICombatEventBus combatEventBus)
         {
             _unit = unit;
             _commandQueue = commandQueue;
-            _combatEventsContext = combatEventsContext;
-            _combatEventsContext.SubscribeToCombatEvent<PreDamageEvent>(OnPreDamage);
+            _combatEventBus = combatEventBus;
+            _combatEventBus.Subscribe<PreDamageEvent>(OnPreDamage);
         }
 
         public void Dispose()
         {
-            _combatEventsContext.UnsubscribeFromCombatEvent<PreDamageEvent>(OnPreDamage);
+            _combatEventBus.Unsubscribe<PreDamageEvent>(OnPreDamage);
         }
 
         private bool OnPreDamage(PreDamageEvent @event)

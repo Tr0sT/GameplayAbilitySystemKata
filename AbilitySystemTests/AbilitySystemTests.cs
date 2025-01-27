@@ -8,9 +8,9 @@ namespace AbilitySystemTests
         [Test]
         public void DoubleStrikeWithOneBully_Full()
         {
-            var combatEventsContext = new CombatEventsContext();
+            var combatEventsContext = new CombatEventBus();
             var commandQueue = new CommandQueue(combatEventsContext);
-            var combatContext = new CombatContext(commandQueue);
+            var combatContext = new CommandQueueExtensions(commandQueue);
             
             var attackerA = new Unit("A", 5, 1, commandQueue, combatEventsContext);
             var targetB = new Unit("B", 5, 0, commandQueue, combatEventsContext);
@@ -32,15 +32,15 @@ namespace AbilitySystemTests
         }
         
 
-        private void DoubleAttackUsingProjectiles(ICombatContext combatContext, IUnit source, IUnit target)
+        private void DoubleAttackUsingProjectiles(ICommandQueueExtensions commandQueueExtensions, IUnit source, IUnit target)
         {
-            combatContext.CreateProjectile(source, target, 10, () =>
+            commandQueueExtensions.CreateProjectile(source, target, 10, () =>
             {
                 source.GetCombatFeature<IDamageable>().DealDamage(target);
             });
-            combatContext.Delay(5, () =>
+            commandQueueExtensions.Delay(5, () =>
             {
-                combatContext.CreateProjectile(source, target, 20, () =>
+                commandQueueExtensions.CreateProjectile(source, target, 20, () =>
                 {
                     source.GetCombatFeature<IDamageable>().DealDamage(target);
                 });
@@ -50,7 +50,7 @@ namespace AbilitySystemTests
         [Test]
         public void DoubleStrikeWithOneBully_OneShot()
         {
-            var combatEventsContext = new CombatEventsContext();
+            var combatEventsContext = new CombatEventBus();
             var commandQueue = new CommandQueue(combatEventsContext);
 
             var attackerA = new Unit("A", 5, 10, commandQueue, combatEventsContext);
@@ -71,7 +71,7 @@ namespace AbilitySystemTests
         [Test]
         public void DoubleStrikeWithTwoBully_Full()
         {
-            var combatEventsContext = new CombatEventsContext();
+            var combatEventsContext = new CombatEventBus();
             var commandQueue = new CommandQueue(combatEventsContext);
 
             var attackerA = new Unit("A", 5, 1, commandQueue, combatEventsContext);
@@ -99,7 +99,7 @@ namespace AbilitySystemTests
         [Test]
         public void SingleStrikeWithOneDefender_Full()
         {
-            var combatEventsContext = new CombatEventsContext();
+            var combatEventsContext = new CombatEventBus();
             var commandQueue = new CommandQueue(combatEventsContext);
 
             var attackerA = new Unit("A", 5, 1, commandQueue, combatEventsContext);

@@ -3,19 +3,19 @@ namespace AbilitySystem
     public sealed class Bully : IStatusEffect
     {
         private readonly IUnit _unit;
-        private readonly ICombatEventsContext _combatEventsContext;
+        private readonly ICombatEventBus _combatEventBus;
 
-        public Bully(IUnit unit, ICombatEventsContext combatEventsContext)
+        public Bully(IUnit unit, ICombatEventBus combatEventBus)
         {
             _unit = unit;
-            _combatEventsContext = combatEventsContext;
+            _combatEventBus = combatEventBus;
 
-            _combatEventsContext.SubscribeToCombatEvent<AfterDamageEvent>(OnAfterDamage);
+            _combatEventBus.Subscribe<AfterDamageEvent>(OnAfterDamage);
         }
 
         public void Dispose()
         {
-            _combatEventsContext.UnsubscribeFromCombatEvent<AfterDamageEvent>(OnAfterDamage);
+            _combatEventBus.Unsubscribe<AfterDamageEvent>(OnAfterDamage);
         }
 
         private bool OnAfterDamage(AfterDamageEvent @event)

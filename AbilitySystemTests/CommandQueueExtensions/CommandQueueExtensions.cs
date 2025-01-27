@@ -2,11 +2,11 @@ using System;
 
 namespace AbilitySystem
 {
-    public sealed class CombatContext : ICombatContext
+    public sealed class CommandQueueExtensions : ICommandQueueExtensions
     {
         private readonly CommandQueue _commandQueue;
 
-        public CombatContext(CommandQueue commandQueue)
+        public CommandQueueExtensions(CommandQueue commandQueue)
         {
             _commandQueue = commandQueue;
         }
@@ -14,7 +14,8 @@ namespace AbilitySystem
 
         public void CreateProjectile(IUnit source, IUnit target, int flyingTime, Action onEnd)
         {
-            if (source.IsDead || target.IsDead)
+            if (!source.GetCombatFeature<IDamageable>().CanInteract || 
+                !target.GetCombatFeature<IDamageable>().CanInteract)
                 return;
             
             _commandQueue.Add(new CreateProjectileCommand(source, target, flyingTime, _commandQueue.Time));
