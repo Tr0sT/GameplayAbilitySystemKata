@@ -10,7 +10,7 @@ namespace AbilitySystemTests
         {
             var combatEventsContext = new CombatEventsContext();
             var commandQueue = new CommandQueue(combatEventsContext);
-            var combatContext = new CombatContext(commandQueue, combatEventsContext);
+            var combatContext = new CombatContext(commandQueue);
             
             var attackerA = new Unit("A", 5, 1, commandQueue, combatEventsContext);
             var targetB = new Unit("B", 5, 0, commandQueue, combatEventsContext);
@@ -19,13 +19,9 @@ namespace AbilitySystemTests
             bullyC.AddBullyStatusEffect();
 
             DoubleAttackUsingProjectiles(combatContext, attackerA, targetB);
-            while (!commandQueue.IsMaxTime)
-            {
-                commandQueue.UpdateTime();
-            }
             
             // Anything above can be changed, but the result must be correct:
-            var result = commandQueue.GetResult();
+            var result = commandQueue.CalcResult();
             Assert.AreEqual(6, result.Count); 
             Assert.Contains(new CreateProjectileCommand(attackerA, targetB, 10, 0), result);
             Assert.Contains(new AttackCommand(attackerA, targetB, attackerA.Damage, 10), result);
@@ -66,7 +62,7 @@ namespace AbilitySystemTests
             attackerA.GetCombatFeature<IDamageable>().DealDamage(targetB);
             
             // Anything above can be changed, but the result must be correct:
-            var result = commandQueue.GetResult();
+            var result = commandQueue.CalcResult();
             Assert.AreEqual(2, result.Count); 
             Assert.AreEqual(new AttackCommand(attackerA, targetB, 5, 0), result[0]);
             Assert.AreEqual(new DeathCommand(targetB, 0), result[1]);
@@ -90,7 +86,7 @@ namespace AbilitySystemTests
             attackerA.GetCombatFeature<IDamageable>().DealDamage(targetB);
 
             // Anything above can be changed, but the result must be correct:
-            var result = commandQueue.GetResult();
+            var result = commandQueue.CalcResult();
             Assert.AreEqual(6, result.Count);
             Assert.AreEqual(new AttackCommand(attackerA, targetB, attackerA.Damage, 0), result[0]); // 4 хп
             Assert.AreEqual(new AttackCommand(bullyC, targetB, bullyC.Damage, 0), result[1]); // 3 хп
@@ -115,7 +111,7 @@ namespace AbilitySystemTests
             
             
             // Anything above can be changed, but the result must be correct:
-            var result = commandQueue.GetResult();
+            var result = commandQueue.CalcResult();
             Assert.AreEqual(3, result.Count); 
             Assert.AreEqual(new TryAttackCommand(attackerA, targetB, 0), result[0]);
             Assert.AreEqual(new DefendCommand(defenderE, targetB, 0), result[1]);

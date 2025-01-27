@@ -5,9 +5,8 @@ namespace AbilitySystem
 {
     public interface ICommandQueue
     {
-        ReadOnlyCollection<ICommand> GetResult();
+        ReadOnlyCollection<ICommand> CalcResult();
         void Add(ICommand command);
-        
-        
+        void AddTimeEvent(int time, Action action);
     }
 }

@@ -8,36 +8,41 @@ namespace AbilitySystem
     {
         private readonly ICombatEventsContext _combatEventsContext;
         private readonly List<ICommand> _commands = new();
-        
+        private readonly TimeEvents _timeEvents;
+
         public int Time { get; private set; }
-        private float _maxTime;
+        
 
         public CommandQueue(ICombatEventsContext combatEventsContext)
         {
             _combatEventsContext = combatEventsContext;
+            _timeEvents = new TimeEvents();
         }
 
         public void Add(ICommand command)
         {
             _commands.Add(command);
         }
-        
-        public ReadOnlyCollection<ICommand> GetResult()
+
+        public void AddTimeEvent(int time, Action action)
         {
+            _timeEvents.AddTimeEvent(time, action);
+        }
+
+        public ReadOnlyCollection<ICommand> CalcResult()
+        {
+            while (!_timeEvents.IsMaxTime(Time))
+            {
+                UpdateTime();
+            }
             return _commands.AsReadOnly();
         }
 
-        public void UpdateTime()
+        private void UpdateTime()
         {
             Time += 1;
-            _combatEventsContext.RaiseCombatEvent(new TimeChangeEvent(Time));
+            
+           _timeEvents.UpdateTime(Time);
         }
-
-        public void AddMaxTime(float maxTime)
-        {
-            _maxTime = MathF.Max(_maxTime, maxTime);
-        }
-        
-        public bool IsMaxTime => Time >= _maxTime;
     }
 }

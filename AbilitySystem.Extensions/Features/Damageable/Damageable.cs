@@ -56,7 +56,8 @@ namespace AbilitySystem
             }
             
             var result = targetDamageable.TakeDamage(damage);
-            _commandQueue.Add(new AttackCommand(Unit, targetDamageable.Unit, result, _commandQueue.Time)); // по-хорошему перенести выше и ввести CalcTakeDamage damage?
+            // по-хорошему перенести выше и ввести CalcTakeDamage damage?
+            _commandQueue.Add(new AttackCommand(Unit, targetDamageable.Unit, result, _commandQueue.Time)); 
             if (!targetDamageable.CanInteract) // а это убрать внутрь TakeDamage
             {
                 _commandQueue.Add(new DeathCommand(targetDamageable.Unit, _commandQueue.Time));

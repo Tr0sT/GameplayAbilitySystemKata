@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AbilitySystem.Extensions\AbilitySystem.Extensions.csproj" />
     <ProjectReference Include="..\AbilitySystem\AbilitySystem.csproj" />
   </ItemGroup>
 
