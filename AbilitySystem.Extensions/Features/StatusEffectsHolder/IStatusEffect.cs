@@ -1,8 +1,9 @@
-using System;
-
 namespace AbilitySystem
 {
-    public interface IStatusEffect : IDisposable
+    public interface IStatusEffect
     {
+        IStatusEffect DeepClone();
+        void Subscribe(ICommandQueue commandQueue, ICombatEventBus combatEventBus);
+        void UnSubscribe();
     }
 }

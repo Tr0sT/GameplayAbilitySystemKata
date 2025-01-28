@@ -9,12 +9,12 @@ namespace AbilitySystem
             return unit.GetCombatFeature<IStatusEffectsHolder>().StatusEffects.Any(s => s is Defender);
         }
         
-        public static void AddDefenderStatusEffect(this IUnit unit, ICommandQueue commandQueue, ICombatEventBus combatEventBus)
+        public static void AddDefenderStatusEffect(this IUnit unit)
         {
             if (!unit.IsBully())
             {
                 unit.GetCombatFeature<IStatusEffectsHolder>().AddStatusEffect(
-                    new Defender(unit, commandQueue, combatEventBus));
+                    new Defender(unit.Id));
             }
         }
     }

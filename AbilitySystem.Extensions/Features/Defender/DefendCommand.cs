@@ -1,4 +1,4 @@
 namespace AbilitySystem
 {
-    public record DefendCommand(IUnit Defender, IUnit Target, int Time) : ICommand;
+    public record DefendCommand(IUnitId DefenderId, IUnitId TargetId, int Time) : ICommand;
 }

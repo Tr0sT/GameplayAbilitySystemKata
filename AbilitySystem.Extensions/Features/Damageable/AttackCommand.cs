@@ -1,4 +1,4 @@
 namespace AbilitySystem
 {
-    public record AttackCommand(IUnit Attacker, IUnit Target, int Damage, int Time) : ICommand;
+    public record AttackCommand(IUnitId AttackerId, IUnitId TargetId, int Damage, int Time) : ICommand;
 }

@@ -1,4 +1,4 @@
 ﻿namespace AbilitySystem
 {
-    public record CreateProjectileCommand(IUnit Source, IUnit Target, int FlyingTime, int Time) : ICommand;
+    public record CreateProjectileCommand(IUnitId SourceId, IUnitId TargetId, int FlyingTime, int Time) : ICommand;
 }

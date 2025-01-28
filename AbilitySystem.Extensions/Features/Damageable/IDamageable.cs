@@ -5,6 +5,6 @@ namespace AbilitySystem
         bool CanInteract { get; }
         int TakeDamage(int damage);
         int DealDamage(IUnit target);
-        IUnit Unit { get; }
+        IUnitId UnitId { get; }
     }
 }

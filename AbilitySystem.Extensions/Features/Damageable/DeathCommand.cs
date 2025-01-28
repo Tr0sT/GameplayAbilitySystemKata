@@ -1,4 +1,4 @@
 namespace AbilitySystem
 {
-    public record DeathCommand(IUnit Target, int Time) : ICommand;
+    public record DeathCommand(IUnitId TargetId, int Time) : ICommand;
 }
