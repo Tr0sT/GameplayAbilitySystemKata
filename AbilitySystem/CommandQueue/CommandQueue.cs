@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 
 namespace AbilitySystem
 {
-    public sealed class CommandQueue : ICommandQueue
+    internal sealed class CommandQueue : ICommandQueue
     {
         private readonly List<ICommand> _commands = new();
         private readonly TimeEvents _timeEvents;
@@ -12,7 +12,7 @@ namespace AbilitySystem
         public int Time { get; private set; }
         
 
-        public CommandQueue()
+        internal CommandQueue()
         {
             _timeEvents = new TimeEvents();
         }
@@ -27,7 +27,7 @@ namespace AbilitySystem
             _timeEvents.AddTimeEvent(time, action);
         }
 
-        public ReadOnlyCollection<ICommand> CalcResult()
+        public ReadOnlyCollection<ICommand> CalculateCommandQueue()
         {
             while (!_timeEvents.IsMaxTime(Time))
             {

@@ -15,13 +15,12 @@ namespace AbilitySystemTests
             
             bullyC.AddBullyStatusEffect();
             
-            var commandQueue = new CommandQueue();
-            var combatEventsContext = new CombatEventBus(new List<IUnit>{attackerA, targetB, bullyC}, commandQueue);
-            var commandQueueExtensions = new CommandQueueExtensions(commandQueue, combatEventsContext);
+            var combatEventsContext = new CombatEventBus(new() {attackerA, targetB, bullyC});
+            var commandQueueExtensions = new CommandQueueExtensions(combatEventsContext);
             DoubleAttackUsingProjectiles(combatEventsContext, commandQueueExtensions, attackerA.Id, targetB.Id);
             
             // Anything above can be changed, but the result must be correct:
-            var result = commandQueue.CalcResult();
+            var result = combatEventsContext.CommandQueue.CalculateCommandQueue();
             Assert.AreEqual(6, result.Count); 
             Assert.Contains(new CreateProjectileCommand(attackerA.Id, targetB.Id, 10, 0), result);
             Assert.Contains(new AttackCommand(attackerA.Id, targetB.Id, attackerA.Damage, 10), result);
@@ -60,15 +59,14 @@ namespace AbilitySystemTests
             var bullyC = new Unit("C", 5, 1);
             bullyC.AddBullyStatusEffect();
 
-            var commandQueue = new CommandQueue();
-            var combatEventsContext = new CombatEventBus(new List<IUnit>{attackerA, targetB, bullyC}, commandQueue);
+            var combatEventsContext = new CombatEventBus(new List<IUnit>{attackerA, targetB, bullyC});
 
 
             combatEventsContext.GetUnit(attackerA.Id).GetCombatFeature<IDamageable>().DealDamage(combatEventsContext.GetUnit(targetB.Id));
             combatEventsContext.GetUnit(attackerA.Id).GetCombatFeature<IDamageable>().DealDamage(combatEventsContext.GetUnit(targetB.Id));
             
             // Anything above can be changed, but the result must be correct:
-            var result = commandQueue.CalcResult();
+            var result = combatEventsContext.CommandQueue.CalculateCommandQueue();
             Assert.AreEqual(2, result.Count); 
             Assert.AreEqual(new AttackCommand(attackerA.Id, targetB.Id, 5, 0), result[0]);
             Assert.AreEqual(new DeathCommand(targetB.Id, 0), result[1]);
@@ -86,8 +84,7 @@ namespace AbilitySystemTests
             bullyC.AddBullyStatusEffect();
             bullyD.AddBullyStatusEffect();
 
-            var commandQueue = new CommandQueue();
-            var combatEventsContext = new CombatEventBus(new List<IUnit>{attackerA, targetB, bullyC, bullyD}, commandQueue);
+            var combatEventsContext = new CombatEventBus(new List<IUnit>{attackerA, targetB, bullyC, bullyD});
 
 
             combatEventsContext.GetUnit(attackerA.Id).GetCombatFeature<IDamageable>().DealDamage(combatEventsContext.GetUnit(targetB.Id));
@@ -95,7 +92,7 @@ namespace AbilitySystemTests
 
 
             // Anything above can be changed, but the result must be correct:
-            var result = commandQueue.CalcResult();
+            var result = combatEventsContext.CommandQueue.CalculateCommandQueue();
             Assert.AreEqual(6, result.Count);
             Assert.AreEqual(new AttackCommand(attackerA.Id, targetB.Id, attackerA.Damage, 0), result[0]); // 4 хп
             Assert.AreEqual(new AttackCommand(bullyC.Id, targetB.Id, bullyC.Damage, 0), result[1]); // 3 хп
@@ -113,16 +110,15 @@ namespace AbilitySystemTests
             var targetB = new Unit("B", 5, 0);
             var defenderE = new Unit("E", 5, 1);
             defenderE.AddDefenderStatusEffect();
-
-            var commandQueue = new CommandQueue();
-            var combatEventsContext = new CombatEventBus(new List<IUnit>{attackerA, targetB, defenderE}, commandQueue);
+            
+            var combatEventsContext = new CombatEventBus(new List<IUnit>{attackerA, targetB, defenderE});
 
 
             combatEventsContext.GetUnit(attackerA.Id).GetCombatFeature<IDamageable>().DealDamage(combatEventsContext.GetUnit(targetB.Id));
             
             
             // Anything above can be changed, but the result must be correct:
-            var result = commandQueue.CalcResult();
+            var result = combatEventsContext.CommandQueue.CalculateCommandQueue();
             Assert.AreEqual(3, result.Count); 
             Assert.AreEqual(new TryAttackCommand(attackerA.Id, targetB.Id, 0), result[0]);
             Assert.AreEqual(new DefendCommand(defenderE.Id, targetB.Id, 0), result[1]);

@@ -9,12 +9,17 @@ namespace AbilitySystem
         private readonly Dictionary<Type, List<Delegate>> _combatEvents = new();
 
         private readonly List<IUnit> _units;
-        public CombatEventBus(List<IUnit> units, ICommandQueue commandQueue)
+        private readonly CommandQueue _commandQueue;
+
+        public CombatEventBus(List<IUnit> units)
         {
+            _commandQueue = new CommandQueue();
             _units = new List<IUnit>(units.Count);
             _units.AddRange(units.Select(u => u.DeepClone()));
-            _units.ForEach(u => u.Subscribe(commandQueue, this));
+            _units.ForEach(u => u.Subscribe(_commandQueue, this));
         }
+
+        public ICommandQueue CommandQueue => _commandQueue;
 
         public IUnit GetUnit(IUnitId unitId)
         {

@@ -4,6 +4,7 @@ namespace AbilitySystem
 {
     public interface ICombatEventBus
     {
+        public ICommandQueue CommandQueue { get; }
         IUnit GetUnit(IUnitId unitId);
         
         void Subscribe<T>(Func<T, bool> func) where T : ICombatEvent;

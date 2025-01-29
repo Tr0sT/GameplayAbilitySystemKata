@@ -4,12 +4,10 @@ namespace AbilitySystem
 {
     public sealed class CommandQueueExtensions : ICommandQueueExtensions
     {
-        private readonly CommandQueue _commandQueue;
         private readonly ICombatEventBus _combatEventBus;
 
-        public CommandQueueExtensions(CommandQueue commandQueue, ICombatEventBus combatEventBus)
+        public CommandQueueExtensions(ICombatEventBus combatEventBus)
         {
-            _commandQueue = commandQueue;
             _combatEventBus = combatEventBus;
         }
 
@@ -22,14 +20,14 @@ namespace AbilitySystem
                 !target.GetCombatFeature<IDamageable>().CanInteract)
                 return;
             
-            _commandQueue.Add(new CreateProjectileCommand(source.Id, target.Id, flyingTime, _commandQueue.Time));
+            _combatEventBus.CommandQueue.Add(new CreateProjectileCommand(source.Id, target.Id, flyingTime, _combatEventBus.CommandQueue.Time));
 
-            _commandQueue.AddTimeEvent(_commandQueue.Time + flyingTime, onEnd);
+            _combatEventBus.CommandQueue.AddTimeEvent(_combatEventBus.CommandQueue.Time + flyingTime, onEnd);
         }
 
         public void Delay(int time, Action onEnd)
         {
-            _commandQueue.AddTimeEvent(_commandQueue.Time + time, onEnd);
+            _combatEventBus.CommandQueue.AddTimeEvent(_combatEventBus.CommandQueue.Time + time, onEnd);
         }
     }
 }

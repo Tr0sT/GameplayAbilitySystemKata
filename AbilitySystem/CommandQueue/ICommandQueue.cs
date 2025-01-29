@@ -3,11 +3,16 @@ using System.Collections.ObjectModel;
 
 namespace AbilitySystem
 {
-    public interface ICommandQueue
+    public interface ICommandQueue : IReadOnlyCommandQueue
     {
         void Add(ICommand command);
         int Time { get; }
         void AddTimeEvent(int time, Action action);
-        ReadOnlyCollection<ICommand> CalcResult();
+        
+    }
+
+    public interface IReadOnlyCommandQueue
+    {
+        ReadOnlyCollection<ICommand> CalculateCommandQueue();
     }
 }
