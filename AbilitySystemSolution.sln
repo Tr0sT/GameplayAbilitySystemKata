@@ -11,6 +11,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbilitySystemTests", "Abili
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbilitySystem.Extensions", "AbilitySystem.Extensions\AbilitySystem.Extensions.csproj", "{4362CE91-804D-4A40-A40B-A0656995E8F0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbilityExecution", "AbilityExecution\AbilityExecution.csproj", "{75E1CA64-608A-4AFC-8B67-A27296C5BE69}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D2FDA127-F4DF-4F66-B0AC-4ADF69048F77} = {D2FDA127-F4DF-4F66-B0AC-4ADF69048F77}
+		{4362CE91-804D-4A40-A40B-A0656995E8F0} = {4362CE91-804D-4A40-A40B-A0656995E8F0}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{D2FDA127-F4DF-4F66-B0AC-4ADF69048F77}.Test|Any CPU.ActiveCfg = Test|Any CPU
@@ -19,6 +25,8 @@ Global
 		{87453710-0599-454C-9D96-1E6940BE45F4}.Test|Any CPU.Build.0 = Test|Any CPU
 		{4362CE91-804D-4A40-A40B-A0656995E8F0}.Test|Any CPU.ActiveCfg = Debug|Any CPU
 		{4362CE91-804D-4A40-A40B-A0656995E8F0}.Test|Any CPU.Build.0 = Debug|Any CPU
+		{75E1CA64-608A-4AFC-8B67-A27296C5BE69}.Test|Any CPU.ActiveCfg = Debug|Any CPU
+		{75E1CA64-608A-4AFC-8B67-A27296C5BE69}.Test|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Test|Any CPU = Test|Any CPU

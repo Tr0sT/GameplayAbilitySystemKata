@@ -11,7 +11,7 @@ namespace AbilitySystem
         
         public static void AddDefenderStatusEffect(this IUnit unit)
         {
-            if (!unit.IsBully())
+            if (!unit.IsDefender())
             {
                 unit.GetCombatFeature<IStatusEffectsHolder>().AddStatusEffect(
                     new Defender(unit.Id));

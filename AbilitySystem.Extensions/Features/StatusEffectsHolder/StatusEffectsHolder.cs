@@ -9,7 +9,6 @@ namespace AbilitySystem
         private readonly IUnitId _unitId;
         
         private ICombatEventBus? _combatEventBus;
-        private ICommandQueue? _commandQueue;
 
         public ReadOnlyCollection<IStatusEffect> StatusEffects => _statusEffects.AsReadOnly();
 
@@ -18,21 +17,19 @@ namespace AbilitySystem
             _unitId = unitId;
         }
 
-        public void Subscribe(ICommandQueue commandQueue, ICombatEventBus combatEventBus)
+        public void Subscribe(ICombatEventBus combatEventBus)
         {
             _combatEventBus = combatEventBus;
-            _commandQueue = commandQueue;
             var unit = _combatEventBus.GetUnit(_unitId);
             foreach (var statusEffect in _statusEffects)
             {
-                statusEffect.Subscribe(_commandQueue, _combatEventBus);
+                statusEffect.Subscribe(_combatEventBus);
             }
         }
 
         public void UnSubscribe()
         {
             _combatEventBus = null;
-            _commandQueue = null;
             foreach (var statusEffect in _statusEffects)
             {
                 statusEffect.UnSubscribe();

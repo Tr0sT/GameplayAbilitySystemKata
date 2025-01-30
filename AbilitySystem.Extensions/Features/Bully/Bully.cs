@@ -10,7 +10,7 @@ namespace AbilitySystem
             _unitId = unitId;
         }
         
-        public void Subscribe(ICommandQueue commandQueue, ICombatEventBus combatEventBus)
+        public void Subscribe(ICombatEventBus combatEventBus)
         {
             _combatEventBus = combatEventBus;
             _combatEventBus.Subscribe<AfterDamageEvent>(OnAfterDamage);
@@ -45,7 +45,7 @@ namespace AbilitySystem
 
             var unit = _combatEventBus.GetUnit(_unitId);
             
-            unit.GetCombatFeature<IDamageable>().DealDamage(@event.Target);
+            unit.GetCombatFeature<IDamageable>().DealDamage(@event.Target, 1);
             return true;
         }
     }

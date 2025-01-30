@@ -5,7 +5,7 @@
         IUnitId Id { get; }
         T GetCombatFeature<T>() where T : ICombatFeature;
         IUnit DeepClone();
-        void Subscribe(ICommandQueue commandQueue, ICombatEventBus combatEventBus);
+        void Subscribe(ICombatEventBus combatEventBus);
         void UnSubscribe();
     }
 

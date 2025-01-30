@@ -4,7 +4,7 @@ namespace AbilitySystem
     {
         bool CanInteract { get; }
         int TakeDamage(int damage);
-        int DealDamage(IUnit target);
+        int DealDamage(IUnit target, float multiplier);
         IUnitId UnitId { get; }
     }
 }

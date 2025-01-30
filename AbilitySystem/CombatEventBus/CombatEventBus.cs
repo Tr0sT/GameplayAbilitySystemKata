@@ -16,7 +16,7 @@ namespace AbilitySystem
             _commandQueue = new CommandQueue();
             _units = new List<IUnit>(units.Count);
             _units.AddRange(units.Select(u => u.DeepClone()));
-            _units.ForEach(u => u.Subscribe(_commandQueue, this));
+            _units.ForEach(u => u.Subscribe(this));
         }
 
         public ICommandQueue CommandQueue => _commandQueue;

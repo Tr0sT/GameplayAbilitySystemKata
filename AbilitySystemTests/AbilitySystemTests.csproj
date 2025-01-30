@@ -15,8 +15,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AbilityExecution\AbilityExecution.csproj" />
     <ProjectReference Include="..\AbilitySystem.Extensions\AbilitySystem.Extensions.csproj" />
     <ProjectReference Include="..\AbilitySystem\AbilitySystem.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="CommandQueueExtensions\Projectiles\" />
   </ItemGroup>
 
 </Project>

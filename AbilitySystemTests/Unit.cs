@@ -6,7 +6,6 @@ namespace AbilitySystem
     public sealed class Unit : IUnit
     {
         private readonly Dictionary<Type, ICombatFeature> _features = new();
-        private ICommandQueue? _commandQueue;
         private ICombatEventBus? _combatEventBus;
         public string Name { get; }
         public int Health { get; private set; }
@@ -37,6 +36,7 @@ namespace AbilitySystem
                     return unit.Damage;
                 }));
             _features.Add(typeof(IStatusEffectsHolder), new StatusEffectsHolder(Id));
+            _features.Add(typeof(IAbilitiesHolder), new AbilitiesHolder());
         }
 
         private Unit(Unit unit)
@@ -63,20 +63,18 @@ namespace AbilitySystem
             return new Unit(this);
         }
 
-        public void Subscribe(ICommandQueue commandQueue, ICombatEventBus combatEventBus)
+        public void Subscribe(ICombatEventBus combatEventBus)
         {
-            _commandQueue = commandQueue;
             _combatEventBus = combatEventBus;
 
             foreach (var combatFeature in _features)
             {
-                combatFeature.Value.Subscribe(commandQueue, combatEventBus);
+                combatFeature.Value.Subscribe(combatEventBus);
             }
         }
 
         public void UnSubscribe()
         {
-            _commandQueue = null;
             _combatEventBus = null;
             
             foreach (var combatFeature in _features)

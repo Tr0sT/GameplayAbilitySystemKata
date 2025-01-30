@@ -3,7 +3,6 @@ namespace AbilitySystem
     public sealed class Defender : IStatusEffect
     {
         private readonly IUnitId _unitId;
-        private ICommandQueue? _commandQueue;
         private ICombatEventBus? _combatEventBus;
 
 
@@ -12,9 +11,8 @@ namespace AbilitySystem
             _unitId = unitId;
         }
 
-        public void Subscribe(ICommandQueue commandQueue, ICombatEventBus combatEventBus)
+        public void Subscribe(ICombatEventBus combatEventBus)
         {
-            _commandQueue = commandQueue;
             _combatEventBus = combatEventBus;
             _combatEventBus.Subscribe<PreDamageEvent>(OnPreDamage);
         }
@@ -26,7 +24,6 @@ namespace AbilitySystem
                 return;
             }
             _combatEventBus.Unsubscribe<PreDamageEvent>(OnPreDamage);
-            _commandQueue = null;
             _combatEventBus = null;
         }
 
@@ -37,7 +34,7 @@ namespace AbilitySystem
 
         private bool OnPreDamage(PreDamageEvent @event)
         {
-            if (_combatEventBus == null || _commandQueue == null)
+            if (_combatEventBus == null)
             {
                 throw new();
             }
@@ -48,9 +45,9 @@ namespace AbilitySystem
 
             var unit = _combatEventBus.GetUnit(_unitId);
             
-            _commandQueue.Add(new TryAttackCommand(@event.Source.Id, @event.Target.Id, _commandQueue.Time));
-            _commandQueue.Add(new DefendCommand(_unitId, @event.Target.Id, _commandQueue.Time));
-            @event.Source.GetCombatFeature<IDamageable>().DealDamage(unit);
+            _combatEventBus.CommandQueue.Add(new TryAttackCommand(@event.Source.Id, @event.Target.Id, _combatEventBus.CommandQueue.Time));
+            _combatEventBus.CommandQueue.Add(new DefendCommand(_unitId, @event.Target.Id, _combatEventBus.CommandQueue.Time));
+            @event.Source.GetCombatFeature<IDamageable>().DealDamage(unit, 1);
             return true;
         }
     }

@@ -9,7 +9,6 @@ namespace AbilitySystem
         private readonly Func<IUnit, int> _getDamage;
         
         private ICombatEventBus? _combatEventBus;
-        private ICommandQueue? _commandQueue;
         private IUnit? _unit;
 
         public Damageable(IUnitId unitId,
@@ -24,17 +23,15 @@ namespace AbilitySystem
             _getDamage = getDamage;
         }
 
-        public void Subscribe(ICommandQueue commandQueue, ICombatEventBus combatEventBus)
+        public void Subscribe(ICombatEventBus combatEventBus)
         {
             _combatEventBus = combatEventBus;
-            _commandQueue = commandQueue;
             _unit = _combatEventBus.GetUnit(UnitId);
         }
 
         public void UnSubscribe()
         {
             _combatEventBus = null;
-            _commandQueue = null;
             _unit = null;
         }
 
@@ -62,9 +59,9 @@ namespace AbilitySystem
             return _doDamage.Invoke(_unit, damage);
         }
 
-        public int DealDamage(IUnit target)
+        public int DealDamage(IUnit target, float multiplier)
         {
-            if (_combatEventBus == null || _commandQueue == null || _unit == null)
+            if (_combatEventBus == null || _unit == null)
             {
                 throw new();
             }
@@ -75,7 +72,7 @@ namespace AbilitySystem
                 return 0;
             }
 
-            var damage = _getDamage.Invoke(_unit);
+            var damage = (int)MathF.Round(_getDamage.Invoke(_unit) * multiplier);
             
             if (_combatEventBus.Raise(new PreDamageEvent(_unit, target, damage)))
             {
@@ -85,10 +82,10 @@ namespace AbilitySystem
             var result = targetDamageable.TakeDamage(damage);
             
             // по-хорошему перенести выше и ввести CalcTakeDamage damage?
-            _commandQueue.Add(new AttackCommand(_unit.Id, targetDamageable.UnitId, result, _commandQueue.Time)); 
+            _combatEventBus.CommandQueue.Add(new AttackCommand(_unit.Id, targetDamageable.UnitId, result, _combatEventBus.CommandQueue.Time)); 
             if (!targetDamageable.CanInteract) // а это убрать внутрь TakeDamage
             {
-                _commandQueue.Add(new DeathCommand(targetDamageable.UnitId, _commandQueue.Time));
+                _combatEventBus.CommandQueue.Add(new DeathCommand(targetDamageable.UnitId, _combatEventBus.CommandQueue.Time));
             }
             
             if (_combatEventBus.Raise(new AfterDamageEvent(_unit, target, result)))

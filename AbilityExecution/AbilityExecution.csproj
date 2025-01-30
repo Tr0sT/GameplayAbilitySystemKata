@@ -7,7 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\AbilityExecution\AbilityExecution.csproj" />
       <ProjectReference Include="..\AbilitySystem\AbilitySystem.csproj" />
     </ItemGroup>
 
