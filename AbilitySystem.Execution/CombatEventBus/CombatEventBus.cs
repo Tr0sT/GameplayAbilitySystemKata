@@ -11,12 +11,23 @@ namespace AbilitySystem
         private readonly List<IUnit> _units;
         private readonly CommandQueue _commandQueue;
 
-        public CombatEventBus(List<IUnit> units)
+        public static ICombatEventBus DeepCloneAndCreate(List<IUnit> units)
+        {
+            var unitClones = new List<IUnit>(units.Count);
+            unitClones.AddRange(units.Select(u => u.DeepClone()));
+            return new CombatEventBus(unitClones);
+        }
+        
+        private CombatEventBus(List<IUnit> units)
         {
             _commandQueue = new CommandQueue();
-            _units = new List<IUnit>(units.Count);
-            _units.AddRange(units.Select(u => u.DeepClone()));
+            _units = units;
             _units.ForEach(u => u.Subscribe(this));
+        }
+
+        public void Dispose()
+        {
+            _units.ForEach(u => u.UnSubscribe());
         }
 
         public ICommandQueue CommandQueue => _commandQueue;

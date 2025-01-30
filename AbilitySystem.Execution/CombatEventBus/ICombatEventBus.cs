@@ -2,7 +2,7 @@
 
 namespace AbilitySystem
 {
-    public interface ICombatEventBus
+    public interface ICombatEventBus : IDisposable
     {
         public ICommandQueue CommandQueue { get; }
         IUnit GetUnit(IUnitId unitId);

@@ -4,10 +4,11 @@
         <TargetFramework>net6.0</TargetFramework>
         <Nullable>enable</Nullable>
         <LangVersion>9</LangVersion>
+        <RootNamespace>AbilityExecution</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\AbilitySystem\AbilitySystem.csproj" />
+      <ProjectReference Include="..\AbilitySystem.Execution\AbilitySystem.Execution.csproj" />
     </ItemGroup>
 
 </Project>

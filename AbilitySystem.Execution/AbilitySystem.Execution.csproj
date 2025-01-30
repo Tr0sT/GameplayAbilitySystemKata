@@ -1,23 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <OutputType>Library</OutputType>
     <TargetFramework>net6.0</TargetFramework>
-    <Configurations>Debug;Release;Test</Configurations>
-    <Platforms>AnyCPU</Platforms>
     <LangVersion>9</LangVersion>
     <Nullable>enable</Nullable>
+    <Configurations>Debug;Release;Test</Configurations>
+    <Platforms>AnyCPU</Platforms>
+    <RootNamespace>AbilitySystem</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="NUnit" Version="3.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\AbilityExecution\AbilityExecution.csproj" />
-    <ProjectReference Include="..\AbilitySystem.Extensions\AbilitySystem.Extensions.csproj" />
-    <ProjectReference Include="..\AbilitySystem\AbilitySystem.csproj" />
   </ItemGroup>
 
 </Project>

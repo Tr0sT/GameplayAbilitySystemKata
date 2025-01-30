@@ -9,15 +9,16 @@ namespace AbilitySystemTests
         [Test]
         public void DoubleStrikeWithOneBully_Full()
         {
+            // Setup
             var attackerA = new Unit("A", 5, 1);
             var targetB = new Unit("B", 5, 0);
             var bullyC = new Unit("C", 5, 1);
             
             bullyC.AddBullyStatusEffect();
-
             attackerA.AddAbility(DoubleStrikeAbility.Create());
             
-            var combatEventsContext = new CombatEventBus(new() {attackerA, targetB, bullyC});
+            // Ability execution
+            var combatEventsContext = CombatEventBus.DeepCloneAndCreate(new() {attackerA, targetB, bullyC});
             var abilityContext = new AbilityContextHolder();
             var doubleStrikeAbility = combatEventsContext.GetUnit(attackerA.Id).GetCombatFeature<IAbilitiesHolder>().Abilities[0];
             abilityContext.GetContext<ITimeAbilityContext>().NextTurn();
@@ -29,8 +30,9 @@ namespace AbilitySystemTests
                 combatEventsContext,
                 abilityContext);
             
-            // Anything above can be changed, but the result must be correct:
             var result = combatEventsContext.CommandQueue.CalculateCommandQueue();
+            
+            // Tests
             Assert.AreEqual(6, result.Count); 
             Assert.Contains(new CreateProjectileCommand(attackerA.Id, targetB.Id, 1, 0), result);
             Assert.Contains(new AttackCommand(attackerA.Id, targetB.Id, attackerA.Damage, 1), result);
@@ -40,6 +42,7 @@ namespace AbilitySystemTests
             Assert.Contains(new AttackCommand(bullyC.Id, targetB.Id, bullyC.Damage, 2), result);
             
             Assert.AreEqual(false, doubleStrikeAbility.CanExecute(null!, null!, abilityContext));
+            combatEventsContext.Dispose();
         }
         
         [Test]
@@ -50,7 +53,7 @@ namespace AbilitySystemTests
             var bullyC = new Unit("C", 5, 1);
             bullyC.AddBullyStatusEffect();
 
-            var combatEventsContext = new CombatEventBus(new List<IUnit>{attackerA, targetB, bullyC});
+            var combatEventsContext = CombatEventBus.DeepCloneAndCreate(new List<IUnit>{attackerA, targetB, bullyC});
 
 
             combatEventsContext.GetUnit(attackerA.Id).GetCombatFeature<IDamageable>().DealDamage(combatEventsContext.GetUnit(targetB.Id), 1);
@@ -75,7 +78,7 @@ namespace AbilitySystemTests
             bullyC.AddBullyStatusEffect();
             bullyD.AddBullyStatusEffect();
 
-            var combatEventsContext = new CombatEventBus(new List<IUnit>{attackerA, targetB, bullyC, bullyD});
+            var combatEventsContext = CombatEventBus.DeepCloneAndCreate(new List<IUnit>{attackerA, targetB, bullyC, bullyD});
 
 
             combatEventsContext.GetUnit(attackerA.Id).GetCombatFeature<IDamageable>().DealDamage(combatEventsContext.GetUnit(targetB.Id), 1);
@@ -102,7 +105,7 @@ namespace AbilitySystemTests
             var defenderE = new Unit("E", 5, 1);
             defenderE.AddDefenderStatusEffect();
             
-            var combatEventsContext = new CombatEventBus(new List<IUnit>{attackerA, targetB, defenderE});
+            var combatEventsContext = CombatEventBus.DeepCloneAndCreate(new List<IUnit>{attackerA, targetB, defenderE});
 
 
             combatEventsContext.GetUnit(attackerA.Id).GetCombatFeature<IDamageable>().DealDamage(combatEventsContext.GetUnit(targetB.Id), 1);
@@ -127,7 +130,7 @@ namespace AbilitySystemTests
             bullyC.AddBullyStatusEffect();
             defenderD.AddDefenderStatusEffect();
             
-            var combatEventsContext = new CombatEventBus(new List<IUnit> { attackerA, targetB, bullyC, defenderD });
+            var combatEventsContext = CombatEventBus.DeepCloneAndCreate(new List<IUnit> { attackerA, targetB, bullyC, defenderD });
             
             combatEventsContext.GetUnit(attackerA.Id).GetCombatFeature<IDamageable>().DealDamage(combatEventsContext.GetUnit(targetB.Id), 1);
             
