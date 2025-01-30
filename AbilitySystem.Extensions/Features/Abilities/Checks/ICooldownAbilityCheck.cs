@@ -4,9 +4,4 @@ namespace AbilitySystem
     {
         int GetCooldownTimer(ITimeAbilityContext context);
     }
-    
-    public interface ITimeAbilityContext : IAbilityContext
-    {
-        int Time { get; }
-    }
 }

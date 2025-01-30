@@ -11,4 +11,8 @@
       <ProjectReference Include="..\AbilitySystem\AbilitySystem.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Features\Abilities\" />
+    </ItemGroup>
+
 </Project>

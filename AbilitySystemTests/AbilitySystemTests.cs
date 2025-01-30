@@ -18,12 +18,16 @@ namespace AbilitySystemTests
             attackerA.AddAbility(DoubleStrikeAbility.Create());
             
             var combatEventsContext = new CombatEventBus(new() {attackerA, targetB, bullyC});
-
-            combatEventsContext.GetUnit(attackerA.Id).GetCombatFeature<IAbilitiesHolder>().Abilities[0].Execute(
+            var abilityContext = new AbilityContextHolder();
+            var doubleStrikeAbility = combatEventsContext.GetUnit(attackerA.Id).GetCombatFeature<IAbilitiesHolder>().Abilities[0];
+            abilityContext.GetContext<ITimeAbilityContext>().NextTurn();
+            
+            Assert.AreEqual(true, doubleStrikeAbility.CanExecute(null!, null!, abilityContext));
+            doubleStrikeAbility.Execute(
                 attackerA.Id,
                 targetB.Id,
                 combatEventsContext,
-                null!);
+                abilityContext);
             
             // Anything above can be changed, but the result must be correct:
             var result = combatEventsContext.CommandQueue.CalculateCommandQueue();
@@ -34,6 +38,8 @@ namespace AbilitySystemTests
             Assert.Contains(new CreateProjectileCommand(attackerA.Id, targetB.Id, 1, 1), result);
             Assert.Contains(new AttackCommand(attackerA.Id, targetB.Id, attackerA.Damage, 2), result);
             Assert.Contains(new AttackCommand(bullyC.Id, targetB.Id, bullyC.Damage, 2), result);
+            
+            Assert.AreEqual(false, doubleStrikeAbility.CanExecute(null!, null!, abilityContext));
         }
         
         [Test]

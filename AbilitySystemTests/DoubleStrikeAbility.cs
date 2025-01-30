@@ -23,6 +23,7 @@ namespace AbilitySystemTests
                 }.AsReadOnly(),
                 new List<IAbilityCheck>()
                 {
+                    new CooldownAbilityCheck(2)
                 }.AsReadOnly());
         }
     }
