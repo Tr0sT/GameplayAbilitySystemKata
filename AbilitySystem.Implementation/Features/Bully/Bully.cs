@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Nuclear.AbilitySystem
 {
     public sealed class Bully : IStatusEffect
@@ -38,7 +40,8 @@ namespace Nuclear.AbilitySystem
                 throw new();
             }
             
-            if (_unitId.Equals(@event.Source.Id) || _unitId.Equals(@event.Target.Id))
+            if (EqualityComparer<IUnitId>.Default.Equals(_unitId, @event.Source.Id) ||
+                EqualityComparer<IUnitId>.Default.Equals(_unitId, @event.Target.Id))
             {
                 return false;
             }

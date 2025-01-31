@@ -34,7 +34,7 @@ namespace Nuclear.AbilitySystem
 
         public IUnit GetUnit(IUnitId unitId)
         {
-            return _units.First(u => u.Id.Equals(unitId));
+            return _units.First(u => EqualityComparer<IUnitId>.Default.Equals(u.Id, unitId)); 
         }
 
         public void Subscribe<T>(Func<T, bool> func) where T : ICombatEvent

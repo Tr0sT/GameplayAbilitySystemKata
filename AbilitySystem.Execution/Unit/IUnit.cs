@@ -9,8 +9,5 @@
         void UnSubscribe();
     }
 
-    public interface IUnitId
-    {
-        bool Equals(IUnitId anotherId);
-    }
+    public interface IUnitId { }
 }
