@@ -35,7 +35,7 @@ namespace Nuclear.AbilitySystem
             }
             foreach (var abilityAction in _abilityActions)
             {
-                abilityAction.Execute(source, target, context);
+                abilityAction.Execute(source, target, context, abilityContext);
             }
         }
 

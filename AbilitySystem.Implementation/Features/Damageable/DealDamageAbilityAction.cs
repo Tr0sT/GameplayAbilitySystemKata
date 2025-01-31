@@ -10,7 +10,8 @@
             _target = target;
             _multiplier = multiplier;
         }
-        public void Execute(IUnitId source, IUnitId? target, ICombatEventBus context)
+        public void Execute(IUnitId source, IUnitId? target, 
+            ICombatEventBus context, IAbilityContextHolder abilityContextHolder)
         {
             AbilityActionTargetExtensions.UpdateAbilityActionTarget(_target, source, target, 
                 out var abilitySource, out var abilityTarget);

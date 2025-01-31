@@ -1,4 +1,5 @@
 using System;
+using System.Numerics;
 
 namespace Nuclear.AbilitySystem
 {
@@ -9,7 +10,7 @@ namespace Nuclear.AbilitySystem
         public int Damage { get; private set; }
         public bool IsDead => Health <= 0;
         
-        public TestUnit(string name, int health, int damage) : base(new UnitId(name))
+        public TestUnit(string name, int health, int damage, Vector2 position) : base(new UnitId(name))
         {
             Name = name;
             Health = health;
@@ -34,6 +35,7 @@ namespace Nuclear.AbilitySystem
                 }));
             _features.Add(typeof(IStatusEffectsHolder), new StatusEffectsHolder(Id));
             _features.Add(typeof(IAbilitiesHolder), new AbilitiesHolder());
+            _features.Add(typeof(IHasPositionCombatFeature), new HasPositionCombatFeature(position));
         }
 
         protected TestUnit(TestUnit testUnit) : base(testUnit)

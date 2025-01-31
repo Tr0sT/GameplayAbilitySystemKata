@@ -14,14 +14,15 @@ namespace Nuclear.AbilitySystem
 
         public int Time { get; }
         public ReadOnlyCollection<IAbilityAction> OnEnd { get; }
-        public void Execute(IUnitId sourceId, IUnitId? targetId, ICombatEventBus context)
+        public void Execute(IUnitId sourceId, IUnitId? targetId, 
+            ICombatEventBus context, IAbilityContextHolder abilityContextHolder)
         {
 
             context.CommandQueue.AddTimeEvent(context.CommandQueue.Time + Time, () =>
             {
                 foreach (var onEndAction in OnEnd)
                 {
-                    onEndAction.Execute(sourceId, targetId, context);
+                    onEndAction.Execute(sourceId, targetId, context, abilityContextHolder);
                 }
             });
         }
