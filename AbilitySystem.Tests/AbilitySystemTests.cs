@@ -10,9 +10,9 @@ namespace AbilitySystemTests
         public void DoubleStrikeWithOneBully_Full()
         {
             // Setup
-            var attackerA = new Unit("A", 5, 1);
-            var targetB = new Unit("B", 5, 0);
-            var bullyC = new Unit("C", 5, 1);
+            var attackerA = new TestUnit("A", 5, 1);
+            var targetB = new TestUnit("B", 5, 0);
+            var bullyC = new TestUnit("C", 5, 1);
             
             bullyC.AddBullyStatusEffect();
             attackerA.AddAbility(DoubleStrikeAbility.Create());
@@ -48,9 +48,9 @@ namespace AbilitySystemTests
         [Test]
         public void DoubleStrikeWithOneBully_OneShot()
         {
-            var attackerA = new Unit("A", 5, 10);
-            var targetB = new Unit("B", 5, 0);
-            var bullyC = new Unit("C", 5, 1);
+            var attackerA = new TestUnit("A", 5, 10);
+            var targetB = new TestUnit("B", 5, 0);
+            var bullyC = new TestUnit("C", 5, 1);
             bullyC.AddBullyStatusEffect();
 
             var combatEventsContext = CombatEventBus.DeepCloneAndCreate(new List<IUnit>{attackerA, targetB, bullyC});
@@ -70,11 +70,11 @@ namespace AbilitySystemTests
         public void DoubleStrikeWithTwoBully_Full()
         {
             
-            var attackerA = new Unit("A", 5, 1);
-            var targetB = new Unit("B", 5, 0);
-            var bullyC = new Unit("C", 5, 1);
+            var attackerA = new TestUnit("A", 5, 1);
+            var targetB = new TestUnit("B", 5, 0);
+            var bullyC = new TestUnit("C", 5, 1);
             
-            var bullyD = new Unit("D", 5, 1);
+            var bullyD = new TestUnit("D", 5, 1);
             bullyC.AddBullyStatusEffect();
             bullyD.AddBullyStatusEffect();
 
@@ -99,9 +99,9 @@ namespace AbilitySystemTests
         [Test]
         public void SingleStrikeWithOneDefender_Full()
         {
-            var attackerA = new Unit("A", 5, 1);
-            var targetB = new Unit("B", 5, 0);
-            var defenderE = new Unit("E", 5, 1);
+            var attackerA = new TestUnit("A", 5, 1);
+            var targetB = new TestUnit("B", 5, 0);
+            var defenderE = new TestUnit("E", 5, 1);
             defenderE.AddDefenderStatusEffect();
             
             var combatEventsContext = CombatEventBus.DeepCloneAndCreate(new List<IUnit>{attackerA, targetB, defenderE});
@@ -121,10 +121,10 @@ namespace AbilitySystemTests
         [Test]
         public void SingleStrikeWithOneBullyAndOneDefender()
         {
-            var attackerA = new Unit("A", 5, 1);
-            var targetB = new Unit("B", 5, 0);
-            var bullyC = new Unit("C", 5, 1);
-            var defenderD = new Unit("D", 5, 1);
+            var attackerA = new TestUnit("A", 5, 1);
+            var targetB = new TestUnit("B", 5, 0);
+            var bullyC = new TestUnit("C", 5, 1);
+            var defenderD = new TestUnit("D", 5, 1);
             
             bullyC.AddBullyStatusEffect();
             defenderD.AddDefenderStatusEffect();
@@ -139,8 +139,8 @@ namespace AbilitySystemTests
             Assert.AreEqual(new DefendCombatCommand(defenderD.Id, targetB.Id, 0), result[1]);
             Assert.AreEqual(new AttackCombatCommand(attackerA.Id, defenderD.Id, attackerA.Damage, 0), result[2]);
             Assert.AreEqual(new AttackCombatCommand(bullyC.Id, defenderD.Id, bullyC.Damage, 0), result[3]);
-            Assert.AreEqual(5, ((Unit)combatEventsContext.GetUnit(targetB.Id)).Health);
-            Assert.AreEqual(3, ((Unit)combatEventsContext.GetUnit(defenderD.Id)).Health);
+            Assert.AreEqual(5, ((TestUnit)combatEventsContext.GetUnit(targetB.Id)).Health);
+            Assert.AreEqual(3, ((TestUnit)combatEventsContext.GetUnit(defenderD.Id)).Health);
             Assert.AreEqual(5, defenderD.Health);
         }
     }
