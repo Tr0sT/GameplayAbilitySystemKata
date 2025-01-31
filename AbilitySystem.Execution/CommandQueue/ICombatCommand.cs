@@ -1,6 +1,6 @@
 ﻿namespace Nuclear.AbilitySystem
 {
-    public interface ICommand
+    public interface ICombatCommand
     {
         public int Time { get; }
     }

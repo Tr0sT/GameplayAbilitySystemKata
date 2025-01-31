@@ -25,7 +25,7 @@ namespace Nuclear.AbilitySystem
                 return;
 
             var flyingTime = 1; // Calculate flying time from context?
-            context.CommandQueue.Add(new CreateProjectileCommand(sourceId, targetId!, flyingTime, context.CommandQueue.Time));
+            context.CommandQueue.Add(new CreateProjectileCombatCommand(sourceId, targetId!, flyingTime, context.CommandQueue.Time));
 
             if (OnEnd != null)
             {

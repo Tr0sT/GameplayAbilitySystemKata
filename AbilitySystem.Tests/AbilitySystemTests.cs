@@ -34,12 +34,12 @@ namespace AbilitySystemTests
             
             // Tests
             Assert.AreEqual(6, result.Count); 
-            Assert.Contains(new CreateProjectileCommand(attackerA.Id, targetB.Id, 1, 0), result);
-            Assert.Contains(new AttackCommand(attackerA.Id, targetB.Id, attackerA.Damage, 1), result);
-            Assert.Contains(new AttackCommand(bullyC.Id, targetB.Id, bullyC.Damage, 1), result);
-            Assert.Contains(new CreateProjectileCommand(attackerA.Id, targetB.Id, 1, 1), result);
-            Assert.Contains(new AttackCommand(attackerA.Id, targetB.Id, attackerA.Damage, 2), result);
-            Assert.Contains(new AttackCommand(bullyC.Id, targetB.Id, bullyC.Damage, 2), result);
+            Assert.Contains(new CreateProjectileCombatCommand(attackerA.Id, targetB.Id, 1, 0), result);
+            Assert.Contains(new AttackCombatCommand(attackerA.Id, targetB.Id, attackerA.Damage, 1), result);
+            Assert.Contains(new AttackCombatCommand(bullyC.Id, targetB.Id, bullyC.Damage, 1), result);
+            Assert.Contains(new CreateProjectileCombatCommand(attackerA.Id, targetB.Id, 1, 1), result);
+            Assert.Contains(new AttackCombatCommand(attackerA.Id, targetB.Id, attackerA.Damage, 2), result);
+            Assert.Contains(new AttackCombatCommand(bullyC.Id, targetB.Id, bullyC.Damage, 2), result);
             
             Assert.AreEqual(false, doubleStrikeAbility.CanExecute(null!, null!, abilityContext));
             combatEventsContext.Dispose();
@@ -62,8 +62,8 @@ namespace AbilitySystemTests
             // Anything above can be changed, but the result must be correct:
             var result = combatEventsContext.CommandQueue.CalculateCommandQueue();
             Assert.AreEqual(2, result.Count); 
-            Assert.AreEqual(new AttackCommand(attackerA.Id, targetB.Id, 5, 0), result[0]);
-            Assert.AreEqual(new DeathCommand(targetB.Id, 0), result[1]);
+            Assert.AreEqual(new AttackCombatCommand(attackerA.Id, targetB.Id, 5, 0), result[0]);
+            Assert.AreEqual(new DeathCombatCommand(targetB.Id, 0), result[1]);
         }
         
         [Test]
@@ -88,12 +88,12 @@ namespace AbilitySystemTests
             // Anything above can be changed, but the result must be correct:
             var result = combatEventsContext.CommandQueue.CalculateCommandQueue();
             Assert.AreEqual(6, result.Count);
-            Assert.AreEqual(new AttackCommand(attackerA.Id, targetB.Id, attackerA.Damage, 0), result[0]); // 4 хп
-            Assert.AreEqual(new AttackCommand(bullyC.Id, targetB.Id, bullyC.Damage, 0), result[1]); // 3 хп
-            Assert.AreEqual(new AttackCommand(bullyD.Id, targetB.Id, bullyD.Damage, 0), result[2]); // 2 хп
-            Assert.AreEqual(new AttackCommand(bullyC.Id, targetB.Id, bullyC.Damage, 0), result[3]); // 1 хп
-            Assert.AreEqual(new AttackCommand(bullyD.Id, targetB.Id, bullyD.Damage, 0), result[4]); // 0 хп
-            Assert.AreEqual(new DeathCommand(targetB.Id, 0), result[5]);
+            Assert.AreEqual(new AttackCombatCommand(attackerA.Id, targetB.Id, attackerA.Damage, 0), result[0]); // 4 хп
+            Assert.AreEqual(new AttackCombatCommand(bullyC.Id, targetB.Id, bullyC.Damage, 0), result[1]); // 3 хп
+            Assert.AreEqual(new AttackCombatCommand(bullyD.Id, targetB.Id, bullyD.Damage, 0), result[2]); // 2 хп
+            Assert.AreEqual(new AttackCombatCommand(bullyC.Id, targetB.Id, bullyC.Damage, 0), result[3]); // 1 хп
+            Assert.AreEqual(new AttackCombatCommand(bullyD.Id, targetB.Id, bullyD.Damage, 0), result[4]); // 0 хп
+            Assert.AreEqual(new DeathCombatCommand(targetB.Id, 0), result[5]);
         }
         
         [Test]
@@ -113,9 +113,9 @@ namespace AbilitySystemTests
             // Anything above can be changed, but the result must be correct:
             var result = combatEventsContext.CommandQueue.CalculateCommandQueue();
             Assert.AreEqual(3, result.Count); 
-            Assert.AreEqual(new TryAttackCommand(attackerA.Id, targetB.Id, 0), result[0]);
-            Assert.AreEqual(new DefendCommand(defenderE.Id, targetB.Id, 0), result[1]);
-            Assert.AreEqual(new AttackCommand(attackerA.Id, defenderE.Id, attackerA.Damage, 0), result[2]);
+            Assert.AreEqual(new TryAttackCombatCommand(attackerA.Id, targetB.Id, 0), result[0]);
+            Assert.AreEqual(new DefendCombatCommand(defenderE.Id, targetB.Id, 0), result[1]);
+            Assert.AreEqual(new AttackCombatCommand(attackerA.Id, defenderE.Id, attackerA.Damage, 0), result[2]);
         }
         
         [Test]
@@ -135,10 +135,10 @@ namespace AbilitySystemTests
             
             var result = combatEventsContext.CommandQueue.CalculateCommandQueue();
             Assert.AreEqual(4, result.Count);
-            Assert.AreEqual(new TryAttackCommand(attackerA.Id, targetB.Id, 0), result[0]);
-            Assert.AreEqual(new DefendCommand(defenderD.Id, targetB.Id, 0), result[1]);
-            Assert.AreEqual(new AttackCommand(attackerA.Id, defenderD.Id, attackerA.Damage, 0), result[2]);
-            Assert.AreEqual(new AttackCommand(bullyC.Id, defenderD.Id, bullyC.Damage, 0), result[3]);
+            Assert.AreEqual(new TryAttackCombatCommand(attackerA.Id, targetB.Id, 0), result[0]);
+            Assert.AreEqual(new DefendCombatCommand(defenderD.Id, targetB.Id, 0), result[1]);
+            Assert.AreEqual(new AttackCombatCommand(attackerA.Id, defenderD.Id, attackerA.Damage, 0), result[2]);
+            Assert.AreEqual(new AttackCombatCommand(bullyC.Id, defenderD.Id, bullyC.Damage, 0), result[3]);
             Assert.AreEqual(5, ((Unit)combatEventsContext.GetUnit(targetB.Id)).Health);
             Assert.AreEqual(3, ((Unit)combatEventsContext.GetUnit(defenderD.Id)).Health);
             Assert.AreEqual(5, defenderD.Health);

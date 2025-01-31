@@ -83,10 +83,10 @@ namespace Nuclear.AbilitySystem
             var result = targetDamageable.TakeDamage(damage);
             
             // по-хорошему перенести выше и ввести CalcTakeDamage damage?
-            _combatEventBus.CommandQueue.Add(new AttackCommand(_unit.Id, targetDamageable.UnitId, result, _combatEventBus.CommandQueue.Time)); 
+            _combatEventBus.CommandQueue.Add(new AttackCombatCommand(_unit.Id, targetDamageable.UnitId, result, _combatEventBus.CommandQueue.Time)); 
             if (!targetDamageable.CanInteract) // а это убрать внутрь TakeDamage
             {
-                _combatEventBus.CommandQueue.Add(new DeathCommand(targetDamageable.UnitId, _combatEventBus.CommandQueue.Time));
+                _combatEventBus.CommandQueue.Add(new DeathCombatCommand(targetDamageable.UnitId, _combatEventBus.CommandQueue.Time));
             }
             
             _combatEventBus.Raise<AfterDamageEvent, DamageEventResult>(new AfterDamageEvent(_unit, target, result));

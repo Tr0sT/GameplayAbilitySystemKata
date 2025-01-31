@@ -52,8 +52,8 @@ namespace Nuclear.AbilitySystem
 
             var unit = _combatEventBus.GetUnit(_unitId);
             
-            _combatEventBus.CommandQueue.Add(new TryAttackCommand(@event.Source.Id, @event.Target.Id, _combatEventBus.CommandQueue.Time));
-            _combatEventBus.CommandQueue.Add(new DefendCommand(_unitId, @event.Target.Id, _combatEventBus.CommandQueue.Time));
+            _combatEventBus.CommandQueue.Add(new TryAttackCombatCommand(@event.Source.Id, @event.Target.Id, _combatEventBus.CommandQueue.Time));
+            _combatEventBus.CommandQueue.Add(new DefendCombatCommand(_unitId, @event.Target.Id, _combatEventBus.CommandQueue.Time));
             @event.Source.GetCombatFeature<IDamageable>().DealDamage(unit, 1);
             return new (false);
         }

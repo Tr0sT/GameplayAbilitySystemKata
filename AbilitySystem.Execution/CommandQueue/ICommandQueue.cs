@@ -5,7 +5,7 @@ namespace Nuclear.AbilitySystem
 {
     public interface ICommandQueue : IReadOnlyCommandQueue
     {
-        void Add(ICommand command);
+        void Add(ICombatCommand combatCommand);
         int Time { get; }
         void AddTimeEvent(int time, Action action);
         
@@ -13,6 +13,6 @@ namespace Nuclear.AbilitySystem
 
     public interface IReadOnlyCommandQueue
     {
-        ReadOnlyCollection<ICommand> CalculateCommandQueue();
+        ReadOnlyCollection<ICombatCommand> CalculateCommandQueue();
     }
 }

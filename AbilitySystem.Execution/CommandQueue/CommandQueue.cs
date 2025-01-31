@@ -6,7 +6,7 @@ namespace Nuclear.AbilitySystem
 {
     internal sealed class CommandQueue : ICommandQueue
     {
-        private readonly List<ICommand> _commands = new();
+        private readonly List<ICombatCommand> _commands = new();
         private readonly TimeEvents _timeEvents;
 
         public int Time { get; private set; }
@@ -17,9 +17,9 @@ namespace Nuclear.AbilitySystem
             _timeEvents = new TimeEvents();
         }
 
-        public void Add(ICommand command)
+        public void Add(ICombatCommand combatCommand)
         {
-            _commands.Add(command);
+            _commands.Add(combatCommand);
         }
 
         public void AddTimeEvent(int time, Action action)
@@ -27,7 +27,7 @@ namespace Nuclear.AbilitySystem
             _timeEvents.AddTimeEvent(time, action);
         }
 
-        public ReadOnlyCollection<ICommand> CalculateCommandQueue()
+        public ReadOnlyCollection<ICombatCommand> CalculateCommandQueue()
         {
             while (!_timeEvents.IsMaxTime(Time))
             {
