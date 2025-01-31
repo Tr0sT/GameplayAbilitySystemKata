@@ -7,7 +7,6 @@
     <Nullable>enable</Nullable>
     <Configurations>Debug;Release;Test</Configurations>
     <Platforms>AnyCPU</Platforms>
-    <RootNamespace>AbilitySystem</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

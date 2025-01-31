@@ -1,6 +1,6 @@
 using System.Collections.Generic;
+using Nuclear.AbilitySystem;
 using NUnit.Framework;
-using AbilitySystem;
 
 namespace AbilitySystemTests
 {

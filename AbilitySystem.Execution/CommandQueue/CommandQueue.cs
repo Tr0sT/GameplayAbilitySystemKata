@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace AbilitySystem
+namespace Nuclear.AbilitySystem
 {
     internal sealed class CommandQueue : ICommandQueue
     {

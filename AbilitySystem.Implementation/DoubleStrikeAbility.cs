@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using AbilitySystem;
 
-namespace AbilitySystemTests
+namespace Nuclear.AbilitySystem
 {
     public static class DoubleStrikeAbility
     {

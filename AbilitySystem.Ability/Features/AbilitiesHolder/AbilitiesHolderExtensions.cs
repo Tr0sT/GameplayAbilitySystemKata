@@ -1,4 +1,4 @@
-﻿namespace AbilitySystem
+﻿namespace Nuclear.AbilitySystem
 {
     public static class AbilitiesHolderExtensions
     {

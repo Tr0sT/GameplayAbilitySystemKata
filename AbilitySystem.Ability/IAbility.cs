@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace AbilitySystem
+namespace Nuclear.AbilitySystem
 {
     public interface IAbility
     {

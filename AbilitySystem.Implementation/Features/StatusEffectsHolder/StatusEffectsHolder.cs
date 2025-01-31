@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace AbilitySystem
+namespace Nuclear.AbilitySystem
 {
     public sealed class StatusEffectsHolder : IStatusEffectsHolder
     {

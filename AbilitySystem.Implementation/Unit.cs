@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace AbilitySystem
+namespace Nuclear.AbilitySystem
 {
     public sealed class Unit : IUnit
     {

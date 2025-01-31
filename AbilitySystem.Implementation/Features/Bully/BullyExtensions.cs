@@ -1,6 +1,6 @@
 using System.Linq;
 
-namespace AbilitySystem
+namespace Nuclear.AbilitySystem
 {
     public static class BullyExtensions
     {

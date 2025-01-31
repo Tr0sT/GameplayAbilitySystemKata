@@ -1,6 +1,6 @@
 using System;
 
-namespace AbilitySystem
+namespace Nuclear.AbilitySystem
 {
     public sealed class CooldownAbilityCheck : ICooldownAbilityCheck
     {

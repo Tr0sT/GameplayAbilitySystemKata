@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AbilitySystem
+namespace Nuclear.AbilitySystem
 {
     public sealed class CombatEventBus : ICombatEventBus
     {

@@ -1,4 +1,4 @@
-﻿namespace AbilitySystem
+﻿namespace Nuclear.AbilitySystem
 {
     public record CreateProjectileCommand(IUnitId SourceId, IUnitId TargetId, int FlyingTime, int Time) : ICommand;
 }

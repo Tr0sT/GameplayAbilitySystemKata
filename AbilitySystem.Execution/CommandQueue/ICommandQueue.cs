@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 
-namespace AbilitySystem
+namespace Nuclear.AbilitySystem
 {
     public interface ICommandQueue : IReadOnlyCommandQueue
     {

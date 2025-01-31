@@ -1,4 +1,4 @@
-﻿namespace AbilitySystem
+﻿namespace Nuclear.AbilitySystem
 {
     public sealed record PreDamageEvent(IUnit Source, IUnit Target, int Damage) : ICombatEvent;
 

@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace AbilitySystem
+namespace Nuclear.AbilitySystem
 {
     public interface IStatusEffectsHolder : ICombatFeature
     {
