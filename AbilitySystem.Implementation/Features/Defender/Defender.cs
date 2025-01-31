@@ -16,7 +16,7 @@ namespace Nuclear.AbilitySystem
         public void Subscribe(ICombatEventBus combatEventBus)
         {
             _combatEventBus = combatEventBus;
-            _combatEventBus.Subscribe<PreDamageEvent>(OnPreDamage);
+            _combatEventBus.Subscribe<PreDamageEvent, DamageEventResult>(OnPreDamage);
         }
 
         public void UnSubscribe()
@@ -25,7 +25,7 @@ namespace Nuclear.AbilitySystem
             {
                 return;
             }
-            _combatEventBus.Unsubscribe<PreDamageEvent>(OnPreDamage);
+            _combatEventBus.Unsubscribe<PreDamageEvent, DamageEventResult>(OnPreDamage);
             _combatEventBus = null;
         }
 
@@ -34,8 +34,12 @@ namespace Nuclear.AbilitySystem
             return new Defender(_unitId);
         }
 
-        private bool OnPreDamage(PreDamageEvent @event)
+        private DamageEventResult? OnPreDamage(PreDamageEvent @event, DamageEventResult? previousResult)
         {
+            if (previousResult is {ContinueExecution: false})
+            {
+                return previousResult;
+            }
             if (_combatEventBus == null)
             {
                 throw new();
@@ -43,7 +47,7 @@ namespace Nuclear.AbilitySystem
             if (EqualityComparer<IUnitId>.Default.Equals(_unitId, @event.Source.Id) ||
                 EqualityComparer<IUnitId>.Default.Equals(_unitId, @event.Target.Id))
             {
-                return false;
+                return previousResult ?? new (true);
             }
 
             var unit = _combatEventBus.GetUnit(_unitId);
@@ -51,7 +55,7 @@ namespace Nuclear.AbilitySystem
             _combatEventBus.CommandQueue.Add(new TryAttackCommand(@event.Source.Id, @event.Target.Id, _combatEventBus.CommandQueue.Time));
             _combatEventBus.CommandQueue.Add(new DefendCommand(_unitId, @event.Target.Id, _combatEventBus.CommandQueue.Time));
             @event.Source.GetCombatFeature<IDamageable>().DealDamage(unit, 1);
-            return true;
+            return new (false);
         }
     }
 }

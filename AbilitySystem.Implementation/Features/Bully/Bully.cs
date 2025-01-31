@@ -15,7 +15,7 @@ namespace Nuclear.AbilitySystem
         public void Subscribe(ICombatEventBus combatEventBus)
         {
             _combatEventBus = combatEventBus;
-            _combatEventBus.Subscribe<AfterDamageEvent>(OnAfterDamage);
+            _combatEventBus.Subscribe<AfterDamageEvent, DamageEventResult>(OnAfterDamage);
         }
 
         public void UnSubscribe()
@@ -24,7 +24,7 @@ namespace Nuclear.AbilitySystem
             {
                 return;
             }
-            _combatEventBus.Unsubscribe<AfterDamageEvent>(OnAfterDamage);
+            _combatEventBus.Unsubscribe<AfterDamageEvent, DamageEventResult>(OnAfterDamage);
             _combatEventBus = null;
         }
 
@@ -33,8 +33,12 @@ namespace Nuclear.AbilitySystem
             return new Bully(_unitId);
         }
 
-        private bool OnAfterDamage(AfterDamageEvent @event)
+        private DamageEventResult? OnAfterDamage(AfterDamageEvent @event, DamageEventResult? previousResult)
         {
+            if (previousResult is {ContinueExecution: false})
+            {
+                return previousResult;
+            }
             if (_combatEventBus == null)
             {
                 throw new();
@@ -43,13 +47,13 @@ namespace Nuclear.AbilitySystem
             if (EqualityComparer<IUnitId>.Default.Equals(_unitId, @event.Source.Id) ||
                 EqualityComparer<IUnitId>.Default.Equals(_unitId, @event.Target.Id))
             {
-                return false;
+                return previousResult ?? new (true);
             }
 
             var unit = _combatEventBus.GetUnit(_unitId);
             
             unit.GetCombatFeature<IDamageable>().DealDamage(@event.Target, 1);
-            return true;
+            return new(false);
         }
     }
 }

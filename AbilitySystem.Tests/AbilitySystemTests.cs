@@ -99,7 +99,6 @@ namespace AbilitySystemTests
         [Test]
         public void SingleStrikeWithOneDefender_Full()
         {
-            
             var attackerA = new Unit("A", 5, 1);
             var targetB = new Unit("B", 5, 0);
             var defenderE = new Unit("E", 5, 1);

@@ -74,7 +74,8 @@ namespace Nuclear.AbilitySystem
 
             var damage = (int)MathF.Round(_getDamage.Invoke(_unit) * multiplier);
             
-            if (_combatEventBus.Raise(new PreDamageEvent(_unit, target, damage)))
+            if (_combatEventBus.Raise<PreDamageEvent, DamageEventResult>(new PreDamageEvent(_unit, target, damage)) 
+                is { ContinueExecution: false})
             {
                 return 0;
             }
@@ -88,10 +89,7 @@ namespace Nuclear.AbilitySystem
                 _combatEventBus.CommandQueue.Add(new DeathCommand(targetDamageable.UnitId, _combatEventBus.CommandQueue.Time));
             }
             
-            if (_combatEventBus.Raise(new AfterDamageEvent(_unit, target, result)))
-            {
-                return result;
-            }
+            _combatEventBus.Raise<AfterDamageEvent, DamageEventResult>(new AfterDamageEvent(_unit, target, result));
             return result;
         }
 
