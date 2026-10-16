@@ -1,14 +1,23 @@
+using System;
+
 namespace AbilitySystem
 {
     public sealed class Unit : IUnit
     {
         public string Name { get; }
         public int Health { get; private set; }
-        public int Damage { get; private set; }
-        public bool IsDead => Health <= 0;
-        
+        public int Damage { get; }
+        public bool IsDead => Health == 0;
+
         public Unit(string name, int health, int damage)
         {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException("A unit needs a name.", nameof(name));
+            if (health < 0)
+                throw new ArgumentOutOfRangeException(nameof(health));
+            if (damage < 0)
+                throw new ArgumentOutOfRangeException(nameof(damage));
+
             Name = name;
             Health = health;
             Damage = damage;
@@ -16,23 +25,18 @@ namespace AbilitySystem
 
         public void TakeDamage(int damage)
         {
-            if (IsDead) return;
-            Health -= damage;
+            if (damage < 0)
+                throw new ArgumentOutOfRangeException(nameof(damage));
+
+            Health -= Math.Min(Health, damage);
         }
 
         public void DealDamage(IUnit target)
         {
-            target.TakeDamage(Damage);
-        }
-
-        public void ReactOnDamageToAnotherUnit_AddDamage()
-        {
-            // TODO
-        }
-        
-        public void ReactOnDamageToAnotherUnit_Defend()
-        {
-            // TODO
+            if (target is null)
+                throw new ArgumentNullException(nameof(target));
+            if (!IsDead)
+                target.TakeDamage(Damage);
         }
     }
 }
