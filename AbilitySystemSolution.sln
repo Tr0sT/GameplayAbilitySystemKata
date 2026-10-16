@@ -10,13 +10,23 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbilitySystemTests", "Abili
 	EndProjectSection
 EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+		Test|Any CPU = Test|Any CPU
+	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D2FDA127-F4DF-4F66-B0AC-4ADF69048F77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2FDA127-F4DF-4F66-B0AC-4ADF69048F77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2FDA127-F4DF-4F66-B0AC-4ADF69048F77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2FDA127-F4DF-4F66-B0AC-4ADF69048F77}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D2FDA127-F4DF-4F66-B0AC-4ADF69048F77}.Test|Any CPU.ActiveCfg = Test|Any CPU
 		{D2FDA127-F4DF-4F66-B0AC-4ADF69048F77}.Test|Any CPU.Build.0 = Test|Any CPU
+		{87453710-0599-454C-9D96-1E6940BE45F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87453710-0599-454C-9D96-1E6940BE45F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87453710-0599-454C-9D96-1E6940BE45F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87453710-0599-454C-9D96-1E6940BE45F4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{87453710-0599-454C-9D96-1E6940BE45F4}.Test|Any CPU.ActiveCfg = Test|Any CPU
 		{87453710-0599-454C-9D96-1E6940BE45F4}.Test|Any CPU.Build.0 = Test|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Test|Any CPU = Test|Any CPU
 	EndGlobalSection
 EndGlobal
